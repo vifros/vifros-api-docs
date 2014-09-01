@@ -1,0 +1,83 @@
+<div class="alert alert-info" style="text-align: center;">
+	<strong>{{ schema.title }}</strong>
+	<hr />
+	{{ schema.description }}
+</div>
+
+<div class="row">
+	<div class="col-md-3">
+		<div style="text-align: center;">API Tree</div>
+		<div treecontrol class="tree-classic"
+		     tree-model="schema"
+		     options="treeOptions"
+		     on-selection="onSelectTreeItem(node)"
+		     selected-node="node1">
+
+			{{ node.path }}
+		</div>
+	</div>
+
+	<div class="col-md-9">
+		<div ng-hide="selected_node">
+			Select a resource at the tree to display its information.
+		</div>
+
+		<div ng-show="selected_node">
+			<table>
+				<tbody>
+					<tr>
+						<th><strong>Title</strong></th>
+						<td>{{ selected_node.title }}</td>
+					</tr>
+					<tr ng-show="selected_node.dscription">
+						<th><strong>Description</strong></th>
+						<td>{{ selected_node.description }}</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div tabset>
+				<div tab ng-repeat="tab in tabs" heading="{{ tab.title }}" active="tab.active" disabled="tab.disabled" select="onSelectTab(tab)">
+					<div class="panel panel-default">
+						<div class="panel-heading">Title</div>
+						<div class="panel-body">
+							{{ tab.content.title }}
+							<hr ng-show="tab.content.description" />
+							<div ng-show="tab.content.description">
+								{{ tab.content.description }}
+							</div>
+						</div>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">Usage</div>
+						<div class="panel-body">
+							<table>
+								<tbody>
+									<tr>
+										<th><strong>CLI</strong></th>
+										<td>{{ tab.content.usage.CLI }}</td>
+									</tr>
+									<tr>
+										<td><strong>HTTP</strong></td>
+										<td>{{ tab.content.usage.HTTP }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<div class="panel panel-default" ng-if="tab.content.request">
+						<div class="panel-heading">Request</div>
+						<div class="panel-body">
+							{{ tab.content.request.title }}
+							<br />
+							<tree-grid tree-data="tree_data"></tree-grid>
+							<!--<tree-grid tree-data="treegrid_data.request"></tree-grid>-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

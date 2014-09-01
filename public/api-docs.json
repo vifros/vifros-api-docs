@@ -1,0 +1,518 @@
+{
+  "title"      : "vifros API root.",
+  "description": "An hypermedia RESTful API to manage a vifros instance.",
+
+  "methods": {
+    "GET": {
+      "title": "Show main menu."
+    }
+  },
+
+  "children": {
+    "interfaces": {
+      "title": "Interfaces related functionality.",
+
+      "definitions": {
+        "ethernets": {
+          "title": "A collection of ethernet interfaces.",
+          "type" : "array",
+          "items": {
+            "$ref": "#/children/interfaces/definitions/ethernet"
+          }
+        },
+        "ethernet" : {
+          "title"     : "A single ethernet interface.",
+          "type"      : "object",
+          "properties": {
+            "status"     : {
+              "title"   : "Status.",
+              "type"    : "object",
+
+              "properties": {
+                "admin"      : {
+                  "title"   : "Admin status.",
+                  "type"    : "string",
+                  "required": true,
+                  "enum"    : [
+                    "UP",
+                    "DOWN"
+                  ]
+                },
+                "operational": {
+                  "title"   : "Operational status.",
+                  "type"    : "string",
+                  "required": true,
+                  "readonly": true,
+                  "enum"    : [
+                    "UP",
+                    "DOWN",
+                    "UNKNOWN",
+                    "NOTPRESENT"
+                  ]
+                }
+              }
+            },
+            "name"       : {
+              "title"   : "Name.",
+              "type"    : "string",
+              "required": true,
+              "unique"  : true,
+              "readonly": true
+            },
+            "mac"        : {
+              "title"  : "MAC.",
+              "type"   : "string",
+              "pattern": "^([0-9a-f]{2}([:-]|$)){6}$"
+            },
+            "mtu"        : {
+              "title": "MTU.",
+              "type" : "number"
+            },
+            "description": {
+              "type" : "string",
+              "title": "Description."
+            }
+          }
+        },
+        "addresses": {
+          "title": "A collection of IP addresses.",
+          "type" : "array",
+          "items": {
+            "$ref": "#/children/interfaces/definitions/address"
+          }
+        },
+        "address"  : {
+          "title"     : "A single IP address.",
+          "type"      : "object",
+          "properties": {
+            "interface"  : {
+              "title"   : "Interface.",
+              "type"    : "string",
+              "required": true,
+              "readonly": true
+            },
+            "address"    : {
+              "title"   : "Address.",
+              "type"    : "string",
+              "required": true,
+              "readonly": true
+            },
+            "peer"       : {
+              "title"   : "Peer.",
+              "type"    : "string",
+              "readonly": true
+            },
+            "broadcast"  : {
+              "title"   : "Broadcast.",
+              "type"    : "string",
+              "readonly": true
+            },
+            "scope"      : {
+              "title"   : "Scope.",
+              "type"    : "string",
+              "readonly": true
+            },
+            "description": {
+              "type" : "string",
+              "title": "Description."
+            }
+          }
+        }
+      },
+
+      "methods": {
+        "GET": {
+          "title": "Show interfaces level menu."
+        }
+      },
+
+      "children": {
+        "ethernets": {
+          "title": "Ethernets information.",
+
+          "methods": {
+            "GET": {
+              "title": "Show an ethernets collection.",
+
+              "response": {
+                "$ref": "#/children/interfaces/definitions/ethernets"
+              }
+            }
+          },
+
+          "children": {
+            ":name": {
+              "title": "Ethernet.",
+
+              "methods": {
+                "GET"   : {
+                  "title": "Show an ethernet.",
+
+                  "response": {
+                    "$ref": "#/children/interfaces/definitions/ethernet"
+                  }
+                },
+                "PUT"   : {
+                  "title": "Updates an ethernet properties.",
+
+                  "request": {
+                    "$ref": "#/children/interfaces/definitions/ethernet"
+                  }
+                },
+                "DELETE": {
+                  "title"      : "Delete an ethernet.",
+                  "description": "Deletes an ethernet interface only if its operational status is NOTPRESENT."
+                }
+              },
+
+              "children": {
+                "addresses": {
+                  "title": "Addresses.",
+
+                  "methods": {
+                    "GET" : {
+                      "title": "Show an addresses collection.",
+
+                      "response": {
+                        "$ref": "#/children/interfaces/definitions/addresses"
+                      }
+                    },
+                    "POST": {
+                      "title": "Creates a new address.",
+
+                      "request": {
+                        "$ref": "#/children/interfaces/definitions/address"
+                      },
+
+                      "response": {
+                        "$ref": "#/children/interfaces/definitions/address"
+                      }
+                    }
+                  },
+
+                  "children": {
+                    ":address": {
+                      "title": "Address.",
+
+                      "methods": {
+                        "GET"   : {
+                          "title": "Show an address.",
+
+                          "response": {
+                            "$ref": "#/children/interfaces/definitions/address"
+                          }
+                        },
+                        "PUT"   : {
+                          "title": "Updates an ethernet properties.",
+
+                          "request": {
+                            "$ref": "#/children/interfaces/definitions/address"
+                          }
+                        },
+                        "DELETE": {
+                          "title": "Delete an address."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "system": {
+      "title": "System related functionality.",
+
+      "methods": {
+        "GET": {
+          "title": "Show system level menu."
+        }
+      },
+
+      "children": {
+        "info": {
+          "title": "System specific information.",
+
+          "definitions": {
+            "infos": {
+              "title": "A collection of info objects.",
+              "type" : "array",
+              "items": {
+                "$ref": "#/children/system/children/info/definitions/info"
+              }
+            },
+            "info" : {
+              "title"     : "An info object.",
+              "type"      : "object",
+              "properties": {
+                "name" : {
+                  "title"   : "Name of the requested info object.",
+                  "type"    : "string",
+                  "required": true,
+                  "readonly": true,
+                  "unique"  : true,
+                  "enum"    : [
+                    "time",
+                    "os",
+                    "memory",
+                    "load",
+                    "swap",
+                    "disks",
+                    "cpus"
+                  ]
+                },
+                "value": {
+                  "title"   : "Value of the requested info object.",
+                  "type"    : "mixed",
+                  "required": true
+                }
+              }
+            }
+          },
+
+          "methods": {
+            "GET": {
+              "title": "Show system specific information.",
+
+              "response": {
+                "$ref": "#/children/system/children/info/definitions/infos"
+              }
+            }
+          },
+
+          "children": {
+            ":name": {
+              "title": "System specific piece of system information.",
+
+              "methods": {
+                "GET": {
+                  "title": "Show specific piece of system information.",
+
+                  "response": {
+                    "$ref": "#/children/system/children/info/definitions/info"
+                  }
+                }
+              },
+
+              "instances": {
+                "time"  : {
+                  "title": "System time.",
+                  "allOf": [
+                    {
+                      "$ref": "#/children/system/children/info/definitions/info"
+                    },
+                    {
+                      "properties": {
+                        "value": {
+                          "type": "object",
+
+                          "properties": {
+                            "up"     : {
+                              "title": "Time the system was up.",
+                              "type" : "number"
+                            },
+                            "current": {
+                              "title": "Current system time.",
+                              "type" : "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                "os"    : {
+                  "title": "OS related information.",
+                  "allOf": [
+                    {
+                      "$ref": "#/children/system/children/info/definitions/info"
+                    },
+                    {
+                      "properties": {
+                        "value": {
+                          "type": "object",
+
+                          "properties": {
+                            "type"    : {
+                              "title": "Type.",
+                              "type" : "string"
+                            },
+                            "arch"    : {
+                              "title": "Arch.",
+                              "type" : "string"
+                            },
+                            "release" : {
+                              "title": "Release.",
+                              "type" : "string"
+                            },
+                            "platform": {
+                              "title": "Platform.",
+                              "type" : "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                "memory": {
+                  "title": "Memory related information.",
+                  "allOf": [
+                    {
+                      "$ref": "#/children/system/children/info/definitions/info"
+                    },
+                    {
+                      "properties": {
+                        "value": {
+                          "type": "object",
+
+                          "properties": {
+                            "installed": {
+                              "title": "Installed.",
+                              "type" : "number"
+                            },
+                            "usage"    : {
+                              "title": "Usage.",
+                              "type" : "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                "load"  : {
+                  "title": "Load average related information.",
+                  "allOf": [
+                    {
+                      "$ref": "#/children/system/children/info/definitions/info"
+                    },
+                    {
+                      "properties": {
+                        "value": {
+                          "type": "array",
+
+                          "item": [
+                            {
+                              "title": "1min average.",
+                              "type" : "number"
+                            },
+                            {
+                              "title": "5min average.",
+                              "type" : "number"
+                            },
+                            {
+                              "title": "15min average.",
+                              "type" : "number"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "swap"  : {
+                  "title": "SWAP related information.",
+                  "allOf": [
+                    {
+                      "$ref": "#/children/system/children/info/definitions/info"
+                    },
+                    {
+                      "properties": {
+                        "value": {
+                          "type": "object",
+
+                          "properties": {
+                            "installed": {
+                              "title": "Installed.",
+                              "type" : "number"
+                            },
+                            "usage"    : {
+                              "title": "Usage.",
+                              "type" : "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                "disks" : {
+                  "title": "Disks related information.",
+                  "allOf": [
+                    {
+                      "$ref": "#/children/system/children/info/definitions/info"
+                    },
+                    {
+                      "properties": {
+                        "value": {
+                          "type": "object",
+
+                          "properties": {
+                            "installed": {
+                              "title": "Installed.",
+                              "type" : "number"
+                            },
+                            "usage"    : {
+                              "title": "Usage.",
+                              "type" : "number"
+                            },
+                            "device"   : {
+                              "title": "Device.",
+                              "type" : "string"
+                            },
+                            "path"     : {
+                              "title": "Path",
+                              "type" : "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                "cpus"  : {
+                  "title": "CPUs related information.",
+                  "allOf": [
+                    {
+                      "$ref": "#/children/system/children/info/definitions/info"
+                    },
+                    {
+                      "properties": {
+                        "value": {
+                          "type": "array",
+
+                          "item": {
+                            "type": "object",
+
+                            "properties": {
+                              "model": {
+                                "title": "Model.",
+                                "type" : "string"
+                              },
+                              "speed": {
+                                "title": "Speed.",
+                                "type" : "string"
+                              },
+                              "usage": {
+                                "title": "Usage.",
+                                "type" : "number"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

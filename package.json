@@ -1,0 +1,13 @@
+{
+  "name"        : "vifros-api-docs",
+  "version"     : "0.0.0",
+  "private"     : true,
+  "scripts"     : {
+    "start": "node app.js"
+  },
+  "description" : "",
+  "dependencies": {
+    "express"     : "4.*",
+    "errorhandler": "*"
+  }
+}
