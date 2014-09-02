@@ -73,7 +73,16 @@
 							{{ tab.content.request.title }}
 						</div>
 
-						<tree-grid ng-if="tab.content.request" tree-data="tab.content.request" col-defs="col_defs"></tree-grid>
+						<tree-grid ng-if="tab.content.request" tree-data="tab.content.request.treegrid" col-defs="col_defs"></tree-grid>
+					</div>
+
+					<div class="panel panel-default" ng-if="tab.content.response">
+						<div class="panel-heading">Response</div>
+						<div class="panel-body">
+							{{ tab.content.response.title }}
+						</div>
+
+						<tree-grid ng-if="tab.content.response" tree-data="tab.content.response.treegrid" col-defs="col_defs"></tree-grid>
 					</div>
 				</div>
 			</div>

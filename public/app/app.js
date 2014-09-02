@@ -3,7 +3,6 @@ var app = angular.module('app', [
     'ui.bootstrap',
     'ngStorage',
     'treeControl',
-    'ngPrettyJson',
     'treeGrid'
   ])
   .run(function ($rootScope) {

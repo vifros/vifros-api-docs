@@ -95,7 +95,7 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
     {
       field      : 'title',
       displayName: 'description'
-    },
+    }
   ];
 
   $scope.onSelectTreeItem = function (node) {
@@ -107,10 +107,16 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
         var content = JSON.parse(JSON.stringify(node.methods[method]));
 
         if (node.methods[method].request) {
-          content.request = compatibilizeSchemaForTreeGrid(node.methods[method].request);
+          content.request = {
+            title   : node.methods[method].request.title,
+            treegrid: compatibilizeSchemaForTreeGrid(node.methods[method].request)
+          };
         }
         if (node.methods[method].response) {
-          content.response = compatibilizeSchemaForTreeGrid(node.methods[method].response);
+          content.response = {
+            title   : node.methods[method].response.title,
+            treegrid: compatibilizeSchemaForTreeGrid(node.methods[method].response)
+          };
         }
 
         tabs.push({
@@ -121,9 +127,6 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
     }
 
     $scope.tabs = tabs;
-  };
-
-  $scope.onSelectTab = function (tab) {
   };
 
   function compatibilizeSchemaForTreeGrid(root_schema) {
@@ -160,15 +163,14 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
                 }
 
                 if (attribute == 'enum') {
-                  param[attribute] = root_schema.properties[prop][attribute].join(',');
+                  param[attribute] = root_schema.properties[prop][attribute].join('<br />');
                   continue;
                 }
-
                 param[attribute] = root_schema.properties[prop][attribute];
               }
             }
 
-            param.flags = flags.join(',');
+            param.flags = flags.join('<br />');
           }
         }
 
