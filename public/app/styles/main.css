@@ -34,3 +34,16 @@ body {
 .nav, .pagination, .carousel, .panel-title a {
 	cursor : pointer;
 }
+
+/* =Tabs.
+ -------------------------------------------------------------- */
+.tab-content {
+	padding-top : 1.5em;
+}
+
+/* =Treegrid.
+ -------------------------------------------------------------- */
+.tree-grid th {
+	color          : #333333;
+	text-transform : capitalize;
+}

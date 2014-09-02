@@ -51,20 +51,18 @@
 
 					<div class="panel panel-default">
 						<div class="panel-heading">Usage</div>
-						<div class="panel-body">
-							<table>
-								<tbody>
-									<tr>
-										<th><strong>CLI</strong></th>
-										<td>{{ tab.content.usage.CLI }}</td>
-									</tr>
-									<tr>
-										<td><strong>HTTP</strong></td>
-										<td>{{ tab.content.usage.HTTP }}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
+						<table class="table">
+							<tbody>
+								<tr>
+									<th><strong>CLI</strong></th>
+									<td>{{ tab.content.usage.CLI }}</td>
+								</tr>
+								<tr>
+									<th><strong>HTTP</strong></th>
+									<td>{{ tab.content.usage.HTTP }}</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 
 					<div class="panel panel-default" ng-if="tab.content.request">
@@ -73,7 +71,10 @@
 							{{ tab.content.request.title }}
 						</div>
 
-						<tree-grid ng-if="tab.content.request" tree-data="tab.content.request.treegrid" col-defs="col_defs"></tree-grid>
+						<tree-grid ng-if="tab.content.request"
+						           tree-data="tab.content.request.treegrid"
+						           col-defs="col_defs"
+								></tree-grid>
 					</div>
 
 					<div class="panel panel-default" ng-if="tab.content.response">

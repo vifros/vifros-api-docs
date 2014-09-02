@@ -178,7 +178,7 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
       }
     }
     else if (root_schema.type == 'array') {
-      console.log('TODO: IS ARRAY TYPE')
+      params_collection = compatibilizeSchemaForTreeGrid(root_schema.items);
     }
 
     return params_collection;
