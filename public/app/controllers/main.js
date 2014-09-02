@@ -85,9 +85,18 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
     var tabs = [];
     for (var method in node.methods) {
       if (node.methods.hasOwnProperty(method)) {
+        var content = JSON.parse(JSON.stringify(node.methods[method]));
+
+        if (node.methods[method].request) {
+          content.request = compatibilizeSchemaForTreeGrid(node.methods[method].request);
+        }
+        if (node.methods[method].response) {
+          content.response = compatibilizeSchemaForTreeGrid(node.methods[method].response);
+        }
+
         tabs.push({
           title  : method,
-          content: node.methods[method]
+          content: content
         });
       }
     }
@@ -96,55 +105,6 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
   };
 
   $scope.onSelectTab = function (tab) {
-    $scope.tree_data = [
-      {
-        name      : "USA",
-        type      : 9826675,
-        required: true,
-        TimeZone  : "UTC -5 to -10",
-        children  : [
-          {
-            Name      : "California",
-            Area      : 423970,
-            Population: 38340000,
-            TimeZone  : "Pacific Time",
-            children  : [
-              {
-                Name      : "San Francisco",
-                Area      : 231,
-                Population: 837442,
-                TimeZone  : "PST"},
-              {
-                Name      : "Los Angeles",
-                Area      : 503,
-                Population: 3904657,
-                TimeZone  : "PST"}
-            ]
-          },
-          {
-            Name      : "Illinois",
-            Area      : 57914,
-            Population: 12882135,
-            TimeZone  : "Central Time Zone",
-            children  : [
-              {
-                Name      : "Chicago",
-                Area      : 234,
-                Population: 2695598,
-                TimeZone  : "CST"}
-            ]
-          }
-        ]
-      },
-      {Name: "Texas", Area: 268581, Population: 26448193, TimeZone: "Mountain"}
-    ];
-
-    console.log(compatibilizeSchemaForTreeGrid(tab.content.request))
-
-    $scope.treegrid_data = {
-      response: (tab.content.response) ? compatibilizeSchemaForTreeGrid(tab.content.response) : null,
-      request : (tab.content.request) ? compatibilizeSchemaForTreeGrid(tab.content.request) : null
-    };
   };
 
   function compatibilizeSchemaForTreeGrid(root_schema) {
@@ -159,20 +119,16 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
 
           if (root_schema.properties[prop].type == 'object') {
             // Further process the object by nesting the function call since it has children properties.
-//            if (!param.children) {
-//              param.children = [];
-//            }
-//
-//            for (var nested_prop in root_schema.properties[prop].properties) {
-//              if (root_schema.properties[prop].properties.hasOwnProperty(nested_prop)) {
-//                param.children = compatibilizeSchemaForTreeGrid(root_schema.properties[prop].properties[nested_prop]);
-//              }
-//            }
+            if (!param.children) {
+              param.children = [];
+            }
+
+            param.children = compatibilizeSchemaForTreeGrid(root_schema.properties[prop]);
           }
           else {
             for (var attribute in root_schema.properties[prop]) {
               if (root_schema.properties[prop].hasOwnProperty(attribute)) {
-                param[attribute] = root_schema.properties[prop][attribute]
+                param[attribute] = root_schema.properties[prop][attribute];
               }
             }
           }
