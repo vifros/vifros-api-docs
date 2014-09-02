@@ -71,9 +71,9 @@
 						<div class="panel-heading">Request</div>
 						<div class="panel-body">
 							{{ tab.content.request.title }}
-							<br />
-							<tree-grid tree-data="tab.content.request"></tree-grid>
 						</div>
+
+						<tree-grid ng-if="tab.content.request" tree-data="tab.content.request" col-defs="col_defs"></tree-grid>
 					</div>
 				</div>
 			</div>

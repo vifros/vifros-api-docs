@@ -79,6 +79,25 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
   $scope.schema = cached_schema;
   $scope.selected_node = null;
 
+  $scope.col_defs = [
+    {
+      field      : 'type',
+      displayName: 'type'
+    },
+    {
+      field      : 'flags',
+      displayName: 'flags'
+    },
+    {
+      field      : 'enum',
+      displayName: 'enum'
+    },
+    {
+      field      : 'title',
+      displayName: 'description'
+    },
+  ];
+
   $scope.onSelectTreeItem = function (node) {
     $scope.selected_node = node;
 
@@ -118,6 +137,8 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
           param.name = prop;
 
           if (root_schema.properties[prop].type == 'object') {
+            param.type = root_schema.properties[prop].type;
+
             // Further process the object by nesting the function call since it has children properties.
             if (!param.children) {
               param.children = [];
@@ -126,11 +147,28 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
             param.children = compatibilizeSchemaForTreeGrid(root_schema.properties[prop]);
           }
           else {
+            var flags = [];
+
             for (var attribute in root_schema.properties[prop]) {
               if (root_schema.properties[prop].hasOwnProperty(attribute)) {
+                if (attribute == 'readonly'
+                  || attribute == 'required'
+                  || attribute == 'unique') {
+
+                  flags.push(attribute);
+                  continue;
+                }
+
+                if (attribute == 'enum') {
+                  param[attribute] = root_schema.properties[prop][attribute].join(',');
+                  continue;
+                }
+
                 param[attribute] = root_schema.properties[prop][attribute];
               }
             }
+
+            param.flags = flags.join(',');
           }
         }
 
