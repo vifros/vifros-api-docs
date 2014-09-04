@@ -25,8 +25,8 @@
           "type"      : "object",
           "properties": {
             "status"     : {
-              "title"   : "Status.",
-              "type"    : "object",
+              "title": "Status.",
+              "type" : "object",
 
               "properties": {
                 "admin"      : {
@@ -299,214 +299,176 @@
 
               "instances": {
                 "time"  : {
-                  "title": "System time.",
-                  "allOf": [
-                    {
-                      "$ref": "#/children/system/children/info/definitions/info"
-                    },
-                    {
-                      "properties": {
-                        "value": {
-                          "type": "object",
+                  "title"     : "System time.",
+                  "type"      : "object",
+                  "properties": {
+                    "value": {
+                      "type": "object",
 
-                          "properties": {
-                            "up"     : {
-                              "title": "Time the system was up.",
-                              "type" : "number"
-                            },
-                            "current": {
-                              "title": "Current system time.",
-                              "type" : "number"
-                            }
-                          }
+                      "properties": {
+                        "up"     : {
+                          "title": "Time the system was up.",
+                          "type" : "number"
+                        },
+                        "current": {
+                          "title": "Current system time.",
+                          "type" : "number"
                         }
                       }
                     }
-                  ]
+                  }
                 },
                 "os"    : {
-                  "title": "OS related information.",
-                  "allOf": [
-                    {
-                      "$ref": "#/children/system/children/info/definitions/info"
-                    },
-                    {
-                      "properties": {
-                        "value": {
-                          "type": "object",
+                  "title"     : "OS related information.",
+                  "type"      : "object",
+                  "properties": {
+                    "value": {
+                      "type": "object",
 
-                          "properties": {
-                            "type"    : {
-                              "title": "Type.",
-                              "type" : "string"
-                            },
-                            "arch"    : {
-                              "title": "Arch.",
-                              "type" : "string"
-                            },
-                            "release" : {
-                              "title": "Release.",
-                              "type" : "string"
-                            },
-                            "platform": {
-                              "title": "Platform.",
-                              "type" : "string"
-                            }
-                          }
+                      "properties": {
+                        "type"    : {
+                          "title": "Type.",
+                          "type" : "string"
+                        },
+                        "arch"    : {
+                          "title": "Arch.",
+                          "type" : "string"
+                        },
+                        "release" : {
+                          "title": "Release.",
+                          "type" : "string"
+                        },
+                        "platform": {
+                          "title": "Platform.",
+                          "type" : "string"
                         }
                       }
                     }
-                  ]
+                  }
                 },
                 "memory": {
-                  "title": "Memory related information.",
-                  "allOf": [
-                    {
-                      "$ref": "#/children/system/children/info/definitions/info"
-                    },
-                    {
-                      "properties": {
-                        "value": {
-                          "type": "object",
+                  "title"     : "Memory related information.",
+                  "type"      : "object",
+                  "properties": {
+                    "value": {
+                      "type": "object",
 
-                          "properties": {
-                            "installed": {
-                              "title": "Installed.",
-                              "type" : "number"
-                            },
-                            "usage"    : {
-                              "title": "Usage.",
-                              "type" : "number"
-                            }
-                          }
+                      "properties": {
+                        "installed": {
+                          "title": "Installed.",
+                          "type" : "number"
+                        },
+                        "usage"    : {
+                          "title": "Usage.",
+                          "type" : "number"
                         }
                       }
                     }
-                  ]
+                  }
                 },
                 "load"  : {
-                  "title": "Load average related information.",
-                  "allOf": [
-                    {
-                      "$ref": "#/children/system/children/info/definitions/info"
-                    },
-                    {
-                      "properties": {
-                        "value": {
-                          "type": "array",
+                  "title"     : "Load average related information.",
+                  "type"      : "object",
+                  "properties": {
+                    "value": {
+                      "type": "array",
 
-                          "item": [
-                            {
-                              "title": "1min average.",
-                              "type" : "number"
-                            },
-                            {
-                              "title": "5min average.",
-                              "type" : "number"
-                            },
-                            {
-                              "title": "15min average.",
-                              "type" : "number"
-                            }
-                          ]
+                      "items": [
+                        {
+                          "title": "1min average.",
+                          "type" : "number"
+                        },
+                        {
+                          "title": "5min average.",
+                          "type" : "number"
+                        },
+                        {
+                          "title": "15min average.",
+                          "type" : "number"
                         }
-                      }
+                      ]
                     }
-                  ]
+                  }
                 },
                 "swap"  : {
-                  "title": "SWAP related information.",
-                  "allOf": [
-                    {
-                      "$ref": "#/children/system/children/info/definitions/info"
-                    },
-                    {
-                      "properties": {
-                        "value": {
-                          "type": "object",
+                  "title"     : "SWAP related information.",
+                  "type"      : "object",
+                  "properties": {
+                    "value": {
+                      "type": "object",
 
-                          "properties": {
-                            "installed": {
-                              "title": "Installed.",
-                              "type" : "number"
-                            },
-                            "usage"    : {
-                              "title": "Usage.",
-                              "type" : "number"
-                            }
-                          }
+                      "properties": {
+                        "installed": {
+                          "title": "Installed.",
+                          "type" : "number"
+                        },
+                        "usage"    : {
+                          "title": "Usage.",
+                          "type" : "number"
                         }
                       }
                     }
-                  ]
+                  }
                 },
                 "disks" : {
-                  "title": "Disks related information.",
-                  "allOf": [
-                    {
-                      "$ref": "#/children/system/children/info/definitions/info"
-                    },
-                    {
-                      "properties": {
-                        "value": {
-                          "type": "object",
+                  "title"     : "Disks related information.",
+                  "type"      : "object",
+                  "properties": {
+                    "value": {
+                      "type": "array",
 
-                          "properties": {
-                            "installed": {
-                              "title": "Installed.",
-                              "type" : "number"
-                            },
-                            "usage"    : {
-                              "title": "Usage.",
-                              "type" : "number"
-                            },
-                            "device"   : {
-                              "title": "Device.",
-                              "type" : "string"
-                            },
-                            "path"     : {
-                              "title": "Path",
-                              "type" : "string"
-                            }
+                      "items": {
+                        "type"      : "object",
+
+                        "properties": {
+                          "installed": {
+                            "title": "Installed.",
+                            "type" : "number"
+                          },
+                          "usage"    : {
+                            "title": "Usage.",
+                            "type" : "number"
+                          },
+                          "device"   : {
+                            "title": "Device.",
+                            "type" : "string"
+                          },
+                          "path"     : {
+                            "title": "Path",
+                            "type" : "string"
                           }
                         }
                       }
                     }
-                  ]
+                  }
                 },
                 "cpus"  : {
-                  "title": "CPUs related information.",
-                  "allOf": [
-                    {
-                      "$ref": "#/children/system/children/info/definitions/info"
-                    },
-                    {
-                      "properties": {
-                        "value": {
-                          "type": "array",
+                  "title"     : "CPUs related information.",
+                  "type"      : "object",
+                  "properties": {
+                    "value": {
+                      "type": "array",
 
-                          "item": {
-                            "type": "object",
+                      "items": {
+                        "type": "object",
 
-                            "properties": {
-                              "model": {
-                                "title": "Model.",
-                                "type" : "string"
-                              },
-                              "speed": {
-                                "title": "Speed.",
-                                "type" : "string"
-                              },
-                              "usage": {
-                                "title": "Usage.",
-                                "type" : "number"
-                              }
-                            }
+                        "properties": {
+                          "model": {
+                            "title": "Model.",
+                            "type" : "string"
+                          },
+                          "speed": {
+                            "title": "Speed.",
+                            "type" : "string"
+                          },
+                          "usage": {
+                            "title": "Usage.",
+                            "type" : "number"
                           }
                         }
                       }
                     }
-                  ]
+                  }
                 }
               }
             }

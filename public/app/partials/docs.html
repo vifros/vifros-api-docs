@@ -72,6 +72,14 @@
 
 						<tree-grid ng-if="tab.content.response" tree-data="tab.content.response.treegrid" col-defs="col_defs"></tree-grid>
 					</div>
+
+					<h3 ng-if="selected_node.instances">Instances</h3>
+
+					<div class="panel panel-default" ng-repeat="(key,value) in tab.content.instances">
+						<div class="panel-heading">{{ key }}</div>
+
+						<tree-grid tree-data="value" col-defs="col_defs"></tree-grid>
+					</div>
 				</div>
 			</div>
 		</div>

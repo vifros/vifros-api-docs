@@ -141,13 +141,14 @@ app.factory('APISchemaService', function (UtilsService) {
         var new_object = UtilsService.findProp(resolved_schema, ref);
         UtilsService.setProp(stack.join('.'), new_object, resolved_schema);
       }
-
       /*
        * TODO: Process allOf.
        * Algorithm:
        * 1- Merge objects in the array with increasing level of priority as array progresses.
        * 2- Merge parent object with the result of step 1.
        */
+      else if (object.hasOwnProperty('allOf')) {
+      }
     });
 
     return resolved_schema;

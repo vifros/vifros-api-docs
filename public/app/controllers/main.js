@@ -118,6 +118,14 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
             treegrid: compatibilizeSchemaForTreeGrid(node.methods[method].response)
           };
         }
+        if (node.instances) {
+          content.instances = {};
+          for (var instance in node.instances) {
+            if (node.instances.hasOwnProperty(instance)) {
+              content.instances[instance] = compatibilizeSchemaForTreeGrid(node.instances[instance]);
+            }
+          }
+        }
 
         tabs.push({
           title  : method,
@@ -139,7 +147,9 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
         if (root_schema.properties.hasOwnProperty(prop)) {
           param.name = prop;
 
-          if (root_schema.properties[prop].type == 'object') {
+          if (root_schema.properties[prop].type == 'object'
+            || root_schema.properties[prop].type == 'array') {
+
             param.type = root_schema.properties[prop].type;
 
             // Further process the object by nesting the function call since it has children properties.
@@ -178,7 +188,24 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
       }
     }
     else if (root_schema.type == 'array') {
-      params_collection = compatibilizeSchemaForTreeGrid(root_schema.items);
+      if (root_schema.items instanceof Array) {
+        // Variant: items is an array.
+        for (var i = 0, j = root_schema.items.length;
+             i < j;
+             i++) {
+
+          var buffer = {
+            name: i
+          };
+
+          angular.extend(buffer, root_schema.items[i]);
+          params_collection.push(buffer);
+        }
+      }
+      else {
+        // Variant: items is an object.
+        params_collection = compatibilizeSchemaForTreeGrid(root_schema.items);
+      }
     }
 
     return params_collection;
