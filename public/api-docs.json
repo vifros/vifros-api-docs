@@ -247,7 +247,7 @@
                           }
                         },
                         "PUT"   : {
-                          "title": "Updates an <code>ethernet</code> properties.",
+                          "title": "Updates an <code>address</code> properties.",
 
                           "request": {
                             "$ref": "#/children/interfaces/definitions/address"
@@ -588,6 +588,89 @@
                       ]
                     }
                   }
+                }
+              }
+            }
+          }
+        },
+
+        "tunables": {
+          "title": "System tuning settings.",
+
+          "definitions": {
+            "tunables": {
+              "title": "A collection of <code>tunable</code> objects.",
+              "type" : "array",
+              "items": {
+                "$ref": "#/children/system/children/tunables/definitions/tunable"
+              }
+            },
+            "tunable" : {
+              "title"     : "A single <code>tunable</code> object.",
+              "type"      : "object",
+              "properties": {
+                "path"       : {
+                  "title"   : "The file path to the <kbd>/proc/sys/</kbd> setting that wants to be tuned.",
+                  "type"    : "string",
+                  "required": true,
+                  "unique"  : true,
+                  "readonly": true
+                },
+                "value"      : {
+                  "title"   : "The value to be set in the file descriptor.",
+                  "type"    : "string",
+                  "required": true
+                },
+                "description": {
+                  "type" : "string",
+                  "title": "Description."
+                }
+              }
+            }
+          },
+
+          "methods": {
+            "GET" : {
+              "title": "Show system tuning settings.",
+
+              "response": {
+                "$ref": "#/children/system/children/tunables/definitions/tunables"
+              }
+            },
+            "POST": {
+              "title": "Creates a new <code>tunable</code>.",
+
+              "request": {
+                "$ref": "#/children/system/children/tunables/definitions/tunable"
+              },
+
+              "response": {
+                "$ref": "#/children/system/children/tunables/definitions/tunable"
+              }
+            }
+          },
+
+          "children": {
+            ":path": {
+              "title": "Specific system <code>tunable</code>.",
+
+              "methods": {
+                "GET"   : {
+                  "title": "Show a specific system <code>tunable</code>.",
+
+                  "response": {
+                    "$ref": "#/children/system/children/tunables/definitions/tunable"
+                  }
+                },
+                "PUT"   : {
+                  "title": "Updates a <code>tunable</code> setting.",
+
+                  "request": {
+                    "$ref": "#/children/system/children/tunables/definitions/tunable"
+                  }
+                },
+                "DELETE": {
+                  "title": "Delete a <code>tunable</code>."
                 }
               }
             }
