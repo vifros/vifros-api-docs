@@ -16,7 +16,6 @@ body {
 	width            : 100%;
 	/* Set the fixed height of the footer here */
 	height           : 60px;
-	background-color : #f5f5f5;
 }
 
 #footer p {
@@ -44,6 +43,60 @@ body {
 /* =Treegrid.
  -------------------------------------------------------------- */
 .tree-grid th {
-	color          : #333333;
 	text-transform : capitalize;
+}
+
+/* =BS Callout.
+ -------------------------------------------------------------- */
+.bs-callout {
+	margin      : 20px 0;
+	padding     : 20px;
+	border-left : 3px solid #eeeeee
+}
+
+.bs-callout h4 {
+	margin-top    : 0;
+	margin-bottom : 0;
+}
+
+.bs-callout p:last-child {
+	margin-bottom : 0
+}
+
+.bs-callout code {
+	background-color : #ffffff;
+	border-radius    : 3px
+}
+
+.bs-callout-danger {
+	background-color : #fdf7f7;
+	border-color     : #d9534f
+}
+
+.bs-callout-danger h4 {
+	color : #d9534f
+}
+
+.bs-callout-warning {
+	background-color : #fcf8f2;
+	border-color     : #f0ad4e
+}
+
+.bs-callout-warning h4 {
+	color : #f0ad4e
+}
+
+.bs-callout-info {
+	background-color : #f4f8fa;
+	border-color     : #5bc0de
+}
+
+.bs-callout-info h4 {
+	color : #5bc0de
+}
+
+/* =Docs styles.
+ -------------------------------------------------------------- */
+.docs-no-margin-bottom {
+	margin-bottom : 0 !important;
 }

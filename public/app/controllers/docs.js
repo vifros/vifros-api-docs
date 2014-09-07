@@ -1,39 +1,3 @@
-app.controller('NavBarController', function ($scope, APIService, $state, $modal) {
-  $scope.url = APIService.getURL();
-  $scope.processing = false;
-
-  $scope.getAPIDocs = function () {
-    // Update the API URL.
-    APIService.setURL($scope.url);
-
-    $scope.processing = true;
-
-    APIService.getSchemaFromServer()
-      .success(function () {
-
-        $scope.processing = false;
-        $state.go('docs');
-
-      }).error(function (data, status) {
-        $modal.open({
-          backdrop   : 'static',
-          size       : 'sm',
-          templateUrl: 'app/partials/modal.html',
-          controller : function ($scope, $modalInstance) {
-            $scope.title = 'You hit an error';
-            $scope.message = 'ERROR!!! Status Code: ' + status;
-
-            $scope.ok = function () {
-              $modalInstance.close();
-            };
-          }
-        });
-
-        $scope.processing = false;
-      });
-  }
-});
-
 app.controller('DocsController', function ($scope, APIService, UtilsService) {
   $scope.treeOptions = {
     nodeChildren : 'children',
@@ -59,17 +23,29 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
 
       var cached_path = stack.join('');
       var methods_map = {
-        GET   : 'show',
-        POST  : 'create',
-        PUT   : 'update',
-        DELETE: 'delete'
+        GET   : {
+          cmd  : 'show',
+          color: 'success'
+        },
+        POST  : {
+          cmd  : 'create',
+          color: 'primary'
+        },
+        PUT   : {
+          cmd  : 'update',
+          color: 'warning'
+        },
+        DELETE: {
+          cmd  : 'delete',
+          color: 'danger'
+        }
       };
 
       for (var method in object.methods) {
         if (object.methods.hasOwnProperty(method)) {
           object.methods[method].usage = {
-            CLI : 'vifros ' + methods_map[method] + cached_path.replace(/children/g, ' '),
-            HTTP: method + ' ' + cached_path.replace(/children/g, '/')
+            CLI : 'vifros ' + methods_map[method].cmd + cached_path.replace(/children/g, ' '),
+            HTTP: '<span class="label label-' + methods_map[method].color + '">' + method + '</span> ' + cached_path.replace(/children/g, '/')
           }
         }
       }
@@ -122,7 +98,11 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
           content.instances = {};
           for (var instance in node.instances) {
             if (node.instances.hasOwnProperty(instance)) {
-              content.instances[instance] = compatibilizeSchemaForTreeGrid(node.instances[instance]);
+              content.instances[instance] = {
+                title      : node.instances[instance].title,
+                description: node.instances[instance].description,
+                treegrid   : compatibilizeSchemaForTreeGrid(node.instances[instance])
+              };
             }
           }
         }

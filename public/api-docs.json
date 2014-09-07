@@ -2,9 +2,46 @@
   "title"      : "vifros API root.",
   "description": "An hypermedia RESTful API to manage a vifros instance.",
 
+  "definitions": {
+    "settings": {
+      "title": "A collection of <code>settings</code> objects.",
+      "type" : "array",
+      "items": {
+        "$ref": "#/definitions/setting"
+      }
+    },
+    "setting" : {
+      "title"     : "A <code>setting</code> object.",
+      "type"      : "object",
+      "properties": {
+        "name"       : {
+          "title"   : "Name of the requested setting object.",
+          "type"    : "string",
+          "required": true,
+          "readonly": true,
+          "unique"  : true,
+          "enum"    : [
+            "hostname",
+            "domain",
+            "nameservers"
+          ]
+        },
+        "value"      : {
+          "title"   : "Value of the requested setting object. This value type depends on the <code>name</code> property.",
+          "type"    : "mixed",
+          "required": true
+        },
+        "description": {
+          "title": "Description for this <code>setting</code> object.",
+          "type" : "string"
+        }
+      }
+    }
+  },
+
   "methods": {
     "GET": {
-      "title": "Show main menu."
+      "title": "Show root level menu."
     }
   },
 
@@ -14,14 +51,14 @@
 
       "definitions": {
         "ethernets": {
-          "title": "A collection of ethernet interfaces.",
+          "title": "A collection of <code>ethernet</code> interfaces.",
           "type" : "array",
           "items": {
             "$ref": "#/children/interfaces/definitions/ethernet"
           }
         },
         "ethernet" : {
-          "title"     : "A single ethernet interface.",
+          "title"     : "A single <code>ethernet</code> interface.",
           "type"      : "object",
           "properties": {
             "status"     : {
@@ -30,7 +67,7 @@
 
               "properties": {
                 "admin"      : {
-                  "title"   : "Admin status.",
+                  "title"   : "The status desired by the user for this interface to have.<br />Possible values are:<br /><ul class='docs-no-margin-bottom'><li><abbr title='Ready to pass packets (if admin status is changed to up, then operational status should change to up if the interface is ready to transmit and receive network traffic).'>UP</abbr></li><li><abbr title='If admin status is down, then operational status should be down.'>DOWN</abbr></li></ul>",
                   "type"    : "string",
                   "required": true,
                   "enum"    : [
@@ -39,7 +76,7 @@
                   ]
                 },
                 "operational": {
-                  "title"   : "Operational status.",
+                  "title"   : "The real status this interface has.<br />Possible values are:<br /><ul class='docs-no-margin-bottom'><li><abbr title='Ready to pass packets (if admin status is changed to up, then operational status should change to up if the interface is ready to transmit and receive network traffic).'>UP</abbr></li><li><abbr title='If admin status is down, then operational status should be down.'>DOWN</abbr></li><li><abbr title='Status can not be determined for some reason.'>UNKNOWN</abbr></li><li><abbr title='Some component is missing, typically hardware.'>NOTPRESENT</abbr></li></ul>",
                   "type"    : "string",
                   "required": true,
                   "readonly": true,
@@ -53,19 +90,19 @@
               }
             },
             "name"       : {
-              "title"   : "Name.",
+              "title"   : "The interface identifier.",
               "type"    : "string",
               "required": true,
               "unique"  : true,
               "readonly": true
             },
             "mac"        : {
-              "title"  : "MAC.",
+              "title"  : "<abbr title='Medium Access Control'>MAC</abbr>. The physical address for this interface.",
               "type"   : "string",
               "pattern": "^([0-9a-f]{2}([:-]|$)){6}$"
             },
             "mtu"        : {
-              "title": "MTU.",
+              "title": "<abbr title='Maximum Transfer Unit'>MTU</abbr>. The maximum transfer unit this interface supports.",
               "type" : "number"
             },
             "description": {
@@ -75,41 +112,48 @@
           }
         },
         "addresses": {
-          "title": "A collection of IP addresses.",
+          "title": "A collection of IP <code>addresses</code>.",
           "type" : "array",
           "items": {
             "$ref": "#/children/interfaces/definitions/address"
           }
         },
         "address"  : {
-          "title"     : "A single IP address.",
+          "title"     : "A single IP <code>address</code>.",
           "type"      : "object",
           "properties": {
             "interface"  : {
-              "title"   : "Interface.",
+              "title"   : "The parent interface this <code>address</code> should belowns to.",
               "type"    : "string",
               "required": true,
               "readonly": true
             },
             "address"    : {
-              "title"   : "Address.",
+              "title"   : "The <code>address</code> of the interface. The format of the <code>address</code> depends on the protocol. It is a dotted quad for IP and a sequence of hexadecimal halfwords separated by colons for IPv6. The <code>address</code> may be followed by a slash and a decimal number which encodes the network prefix length.",
               "type"    : "string",
               "required": true,
               "readonly": true
             },
             "peer"       : {
-              "title"   : "Peer.",
+              "title"   : "The <code>address</code> of the remote endpoint for pointopoint interfaces. Again, the <code>address</code> may be followed by a slash and a decimal number, encoding the network prefix length. If a peer address is specified, the local address cannot have a prefix length. The network prefix is associated with the peer rather than with the local address.",
               "type"    : "string",
               "readonly": true
             },
             "broadcast"  : {
-              "title"   : "Broadcast.",
+              "title"   : "The broadcast <code>address</code> on the interface. It is possible to use the special symbols <code>+</code> and <code>-</code> instead of the broadcast address. In this case, the broadcast address is derived by setting/resetting the host bits of the interface prefix.<br /><br /><div class='alert alert-danger docs-no-margin-bottom'><strong>Warning:</strong>&nbsp;This field is not set unless explicitly requested.</div>",
               "type"    : "string",
               "readonly": true
             },
             "scope"      : {
-              "title"   : "Scope.",
+              "title"   : "The scope of the area where this <code>address</code> is valid.<br />Possible values are:<br /><ul class='docs-no-margin-bottom'><li><abbr title='the address is valid only inside this host.'>host</abbr></abbr></li><li><abbr title='The address is link local, i.e. it is valid only on this device.'>link</abbr></li><li><abbr title='The address is globally valid.'>global</abbr></li><li>nowhere</li><li><abbr title='(IPv6 only) the address is site local, i.e. it is valid inside this site.'>site</abbr></li></ul>",
               "type"    : "string",
+              "enum"    : [
+                "host",
+                "link",
+                "global",
+                "nowhere",
+                "site"
+              ],
               "readonly": true
             },
             "description": {
@@ -122,7 +166,7 @@
 
       "methods": {
         "GET": {
-          "title": "Show interfaces level menu."
+          "title": "Show <code>interfaces</code> level menu."
         }
       },
 
@@ -132,7 +176,7 @@
 
           "methods": {
             "GET": {
-              "title": "Show an ethernets collection.",
+              "title": "Show an <code>ethernets</code> collection.",
 
               "response": {
                 "$ref": "#/children/interfaces/definitions/ethernets"
@@ -146,22 +190,22 @@
 
               "methods": {
                 "GET"   : {
-                  "title": "Show an ethernet.",
+                  "title": "Show an <code>ethernet</code>.",
 
                   "response": {
                     "$ref": "#/children/interfaces/definitions/ethernet"
                   }
                 },
                 "PUT"   : {
-                  "title": "Updates an ethernet properties.",
+                  "title": "Updates an <code>ethernet</code> properties.",
 
                   "request": {
                     "$ref": "#/children/interfaces/definitions/ethernet"
                   }
                 },
                 "DELETE": {
-                  "title"      : "Delete an ethernet.",
-                  "description": "Deletes an ethernet interface only if its operational status is NOTPRESENT."
+                  "title"      : "Delete an <code>ethernet</code>.",
+                  "description": "Deletes an <code>ethernet</code> interface only if its operational status is <strong>NOTPRESENT</strong>. Thus, this operation is invalid otherwise."
                 }
               },
 
@@ -171,14 +215,14 @@
 
                   "methods": {
                     "GET" : {
-                      "title": "Show an addresses collection.",
+                      "title": "Show an <code>addresses</code> collection.",
 
                       "response": {
                         "$ref": "#/children/interfaces/definitions/addresses"
                       }
                     },
                     "POST": {
-                      "title": "Creates a new address.",
+                      "title": "Creates a new <code>address</code>.",
 
                       "request": {
                         "$ref": "#/children/interfaces/definitions/address"
@@ -196,21 +240,21 @@
 
                       "methods": {
                         "GET"   : {
-                          "title": "Show an address.",
+                          "title": "Show an <code>address</code>.",
 
                           "response": {
                             "$ref": "#/children/interfaces/definitions/address"
                           }
                         },
                         "PUT"   : {
-                          "title": "Updates an ethernet properties.",
+                          "title": "Updates an <code>ethernet</code> properties.",
 
                           "request": {
                             "$ref": "#/children/interfaces/definitions/address"
                           }
                         },
                         "DELETE": {
-                          "title": "Delete an address."
+                          "title": "Delete an <code>address</code>."
                         }
                       }
                     }
@@ -228,7 +272,7 @@
 
       "methods": {
         "GET": {
-          "title": "Show system level menu."
+          "title": "Show <code>system</code> level menu."
         }
       },
 
@@ -238,18 +282,18 @@
 
           "definitions": {
             "infos": {
-              "title": "A collection of info objects.",
+              "title": "A collection of <code>info</code> objects.",
               "type" : "array",
               "items": {
                 "$ref": "#/children/system/children/info/definitions/info"
               }
             },
             "info" : {
-              "title"     : "An info object.",
+              "title"     : "An <code>info</code> object.",
               "type"      : "object",
               "properties": {
                 "name" : {
-                  "title"   : "Name of the requested info object.",
+                  "title"   : "Name of the requested <code>info</code> object.",
                   "type"    : "string",
                   "required": true,
                   "readonly": true,
@@ -265,7 +309,7 @@
                   ]
                 },
                 "value": {
-                  "title"   : "Value of the requested info object.",
+                  "title"   : "Value of the requested <code>info</code> object. This value type depends on the <code>name</code> property.",
                   "type"    : "mixed",
                   "required": true
                 }
@@ -275,7 +319,7 @@
 
           "methods": {
             "GET": {
-              "title": "Show system specific information.",
+              "title": "Show specific information about the system.",
 
               "response": {
                 "$ref": "#/children/system/children/info/definitions/infos"
@@ -285,11 +329,11 @@
 
           "children": {
             ":name": {
-              "title": "System specific piece of system information.",
+              "title": "Specific section of system information.",
 
               "methods": {
                 "GET": {
-                  "title": "Show specific piece of system information.",
+                  "title": "Show specific section of system information.",
 
                   "response": {
                     "$ref": "#/children/system/children/info/definitions/info"
@@ -299,7 +343,7 @@
 
               "instances": {
                 "time"  : {
-                  "title"     : "System time.",
+                  "title"     : "Information about system times.",
                   "type"      : "object",
                   "properties": {
                     "value": {
@@ -307,11 +351,11 @@
 
                       "properties": {
                         "up"     : {
-                          "title": "Time the system was up.",
+                          "title": "The system uptime in seconds.",
                           "type" : "number"
                         },
                         "current": {
-                          "title": "Current system time.",
+                          "title": "The current system time in milliseconds.",
                           "type" : "number"
                         }
                       }
@@ -327,19 +371,19 @@
 
                       "properties": {
                         "type"    : {
-                          "title": "Type.",
+                          "title": "The OS name.",
                           "type" : "string"
                         },
                         "arch"    : {
-                          "title": "Arch.",
+                          "title": "The OS CPU architecture.",
                           "type" : "string"
                         },
                         "release" : {
-                          "title": "Release.",
+                          "title": "The OS release.",
                           "type" : "string"
                         },
                         "platform": {
-                          "title": "Platform.",
+                          "title": "The OS platform.",
                           "type" : "string"
                         }
                       }
@@ -355,11 +399,11 @@
 
                       "properties": {
                         "installed": {
-                          "title": "Installed.",
+                          "title": "Total amount of system memory in bytes.",
                           "type" : "number"
                         },
                         "usage"    : {
-                          "title": "Usage.",
+                          "title": "The memory utilization in percent.",
                           "type" : "number"
                         }
                       }
@@ -367,23 +411,24 @@
                   }
                 },
                 "load"  : {
-                  "title"     : "Load average related information.",
-                  "type"      : "object",
-                  "properties": {
+                  "title"      : "An array containing the 1, 5, and 15 minute system load averages.",
+                  "description": "The load average is a measure of system activity, calculated by the operating system and expressed as a fractional number. As a rule of thumb, the load average should ideally be less than the number of logical CPUs in the system.",
+                  "type"       : "object",
+                  "properties" : {
                     "value": {
                       "type": "array",
 
                       "items": [
                         {
-                          "title": "1min average.",
+                          "title": "1min load average.",
                           "type" : "number"
                         },
                         {
-                          "title": "5min average.",
+                          "title": "5min load average.",
                           "type" : "number"
                         },
                         {
-                          "title": "15min average.",
+                          "title": "15min load average.",
                           "type" : "number"
                         }
                       ]
@@ -399,11 +444,11 @@
 
                       "properties": {
                         "installed": {
-                          "title": "Installed.",
+                          "title": "Total amount of SWAP memory in bytes.",
                           "type" : "number"
                         },
                         "usage"    : {
-                          "title": "Usage.",
+                          "title": "The SWAP utilization in percent.",
                           "type" : "number"
                         }
                       }
@@ -411,30 +456,30 @@
                   }
                 },
                 "disks" : {
-                  "title"     : "Disks related information.",
+                  "title"     : "Information about the disks available in the system.",
                   "type"      : "object",
                   "properties": {
                     "value": {
                       "type": "array",
 
                       "items": {
-                        "type"      : "object",
+                        "type": "object",
 
                         "properties": {
                           "installed": {
-                            "title": "Installed.",
+                            "title": "Total amount of disk space in bytes.",
                             "type" : "number"
                           },
                           "usage"    : {
-                            "title": "Usage.",
+                            "title": "The space utilization in bytes.",
                             "type" : "number"
                           },
                           "device"   : {
-                            "title": "Device.",
+                            "title": "The device identification for the partition.",
                             "type" : "string"
                           },
                           "path"     : {
-                            "title": "Path",
+                            "title": "The mounting path for the device.",
                             "type" : "string"
                           }
                         }
@@ -443,7 +488,7 @@
                   }
                 },
                 "cpus"  : {
-                  "title"     : "CPUs related information.",
+                  "title"     : "An array of objects containing information about each CPU/core installed.",
                   "type"      : "object",
                   "properties": {
                     "value": {
@@ -454,19 +499,93 @@
 
                         "properties": {
                           "model": {
-                            "title": "Model.",
+                            "title": "The CPU model.",
                             "type" : "string"
                           },
                           "speed": {
-                            "title": "Speed.",
+                            "title": "The CPU speed.",
                             "type" : "string"
                           },
                           "usage": {
-                            "title": "Usage.",
+                            "title": "The CPU utilization in percent.",
                             "type" : "number"
                           }
                         }
                       }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "settings": {
+          "title"  : "System specific settings.",
+          "methods": {
+            "GET": {
+              "title": "Show system specific settings.",
+
+              "response": {
+                "$ref": "#/definitions/settings"
+              }
+            }
+          },
+
+          "children": {
+            ":name": {
+              "title": "Specific system setting name.",
+
+              "methods": {
+                "GET": {
+                  "title": "Show a specific system <code>setting</code>.",
+
+                  "response": {
+                    "$ref": "#/definitions/setting"
+                  }
+                }
+              },
+
+              "instances": {
+                "hostname"   : {
+                  "type"      : "object",
+                  "properties": {
+                    "value": {
+                      "type" : "string",
+                      "title": "The hostname of the operating system."
+                    }
+                  }
+                },
+                "domain"     : {
+                  "type"      : "object",
+                  "properties": {
+                    "value": {
+                      "type" : "string",
+                      "title": "The domain of the operating system."
+                    }
+                  }
+                },
+                "nameservers": {
+                  "title"     : "The nameservers of the operating system.",
+                  "type"      : "object",
+                  "properties": {
+                    "value": {
+                      "type": "array",
+
+                      "items": [
+                        {
+                          "title": "Primary nameserver.",
+                          "type" : "string"
+                        },
+                        {
+                          "title": "Secondary nameserver.",
+                          "type" : "string"
+                        },
+                        {
+                          "title": "Tertiary nameserver.",
+                          "type" : "string"
+                        }
+                      ]
                     }
                   }
                 }

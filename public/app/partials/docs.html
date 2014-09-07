@@ -1,4 +1,4 @@
-<div class="alert alert-info" style="text-align: center;">
+<div class="alert alert-success" style="text-align: center;">
 	<strong>{{ schema.title }}</strong>
 	<hr />
 	{{ schema.description }}
@@ -6,14 +6,18 @@
 
 <div class="row">
 	<div class="col-md-3">
-		<div style="text-align: center;">API Tree</div>
-		<div treecontrol class="tree-classic"
-		     tree-model="schema"
-		     options="treeOptions"
-		     on-selection="onSelectTreeItem(node)"
-		     selected-node="node1">
+		<div class="panel panel-primary">
+			<div class="panel-heading"  style="text-align: center;">API Resource Tree</div>
+			<div class="panel-body">
+				<div treecontrol class="tree-classic"
+				     tree-model="schema"
+				     options="treeOptions"
+				     on-selection="onSelectTreeItem(node)"
+				     selected-node="node1">
 
-			{{ node.path }}
+					{{ node.path }}
+				</div>
+			</div>
 		</div>
 	</div>
 
@@ -25,38 +29,35 @@
 		<div ng-show="selected_node">
 			<div tabset>
 				<div tab ng-repeat="tab in tabs" heading="{{ tab.title }}" active="tab.active" disabled="tab.disabled" select="onSelectTab(tab)">
-					<div class="panel panel-default">
+					<div class="panel panel-primary">
 						<div class="panel-heading">Description</div>
 						<div class="panel-body">
-							{{ tab.content.title }}
+							<span ng-bind-html="tab.content.title"></span>
 							<hr ng-show="tab.content.description" />
-							<div ng-show="tab.content.description">
-								{{ tab.content.description }}
+							<div ng-show="tab.content.description" ng-bind-html="tab.content.description">
 							</div>
 						</div>
 					</div>
 
-					<div class="panel panel-default">
+					<div class="panel panel-primary">
 						<div class="panel-heading">Usage</div>
 						<table class="table">
 							<tbody>
 								<tr>
 									<th><strong>CLI</strong></th>
-									<td>{{ tab.content.usage.CLI }}</td>
+									<td><kbd>{{ tab.content.usage.CLI }}</kbd></td>
 								</tr>
 								<tr>
 									<th><strong>HTTP</strong></th>
-									<td>{{ tab.content.usage.HTTP }}</td>
+									<td ng-bind-html="tab.content.usage.HTTP"></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 
-					<div class="panel panel-default" ng-if="tab.content.request">
+					<div class="panel panel-success" ng-if="tab.content.request">
 						<div class="panel-heading">Request</div>
-						<div class="panel-body">
-							{{ tab.content.request.title }}
-						</div>
+						<div class="panel-body" ng-bind-html="tab.content.request.title"></div>
 
 						<tree-grid ng-if="tab.content.request"
 						           tree-data="tab.content.request.treegrid"
@@ -64,21 +65,28 @@
 								></tree-grid>
 					</div>
 
-					<div class="panel panel-default" ng-if="tab.content.response">
+					<div class="panel panel-success" ng-if="tab.content.response">
 						<div class="panel-heading">Response</div>
-						<div class="panel-body">
-							{{ tab.content.response.title }}
-						</div>
+						<div class="panel-body" ng-bind-html="tab.content.response.title"></div>
 
 						<tree-grid ng-if="tab.content.response" tree-data="tab.content.response.treegrid" col-defs="col_defs"></tree-grid>
 					</div>
 
-					<h3 ng-if="selected_node.instances">Instances</h3>
+					<div class="bs-callout bs-callout-info" ng-if="selected_node.instances">
+						<h4>Specific instances for this resource</h4>
+					</div>
 
-					<div class="panel panel-default" ng-repeat="(key,value) in tab.content.instances">
-						<div class="panel-heading">{{ key }}</div>
+					<div class="panel panel-info" ng-repeat="(key,value) in tab.content.instances">
+						<div class="panel-heading">When <code>{{ selected_node.path }}</code> is equal to <code>{{ key }}</code></div>
 
-						<tree-grid tree-data="value" col-defs="col_defs"></tree-grid>
+						<div class="panel-body" ng-show="value.title || value.description">
+							<span ng-bind-html="value.title"></span>
+							<hr ng-show="value.description" />
+							<div ng-show="value.description" ng-bind-html="value.description">
+							</div>
+						</div>
+
+						<tree-grid tree-data="value.treegrid" col-defs="col_defs"></tree-grid>
 					</div>
 				</div>
 			</div>
