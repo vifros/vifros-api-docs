@@ -184,7 +184,12 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
       }
       else {
         // Variant: items is an object.
-        params_collection = compatibilizeSchemaForTreeGrid(root_schema.items);
+        if (root_schema.items.type == 'object') {
+          params_collection = compatibilizeSchemaForTreeGrid(root_schema.items);
+        }
+        else {
+          params_collection.push(root_schema.items);
+        }
       }
     }
 

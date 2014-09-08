@@ -72,10 +72,6 @@
 						<tree-grid ng-if="tab.content.response" tree-data="tab.content.response.treegrid" col-defs="col_defs"></tree-grid>
 					</div>
 
-					<div class="bs-callout bs-callout-info" ng-if="selected_node.instances">
-						<h4>Specific instances for this resource</h4>
-					</div>
-
 					<div class="panel panel-info" ng-repeat="(key,value) in tab.content.instances">
 						<div class="panel-heading">When <code>{{ selected_node.path }}</code> is equal to <code>{{ key }}</code></div>
 

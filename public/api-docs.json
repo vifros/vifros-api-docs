@@ -51,14 +51,14 @@
 
       "definitions": {
         "ethernets": {
-          "title": "A collection of <code>ethernet</code> interfaces.",
+          "title": "A collection of interfaces.",
           "type" : "array",
           "items": {
             "$ref": "#/children/interfaces/definitions/ethernet"
           }
         },
         "ethernet" : {
-          "title"     : "A single <code>ethernet</code> interface.",
+          "title"     : "A single interface.",
           "type"      : "object",
           "properties": {
             "status"     : {
@@ -206,6 +206,100 @@
                 "DELETE": {
                   "title"      : "Delete an <code>ethernet</code>.",
                   "description": "Deletes an <code>ethernet</code> interface only if its operational status is <strong>NOTPRESENT</strong>. Thus, this operation is invalid otherwise."
+                }
+              },
+
+              "children": {
+                "addresses": {
+                  "title": "Addresses.",
+
+                  "methods": {
+                    "GET" : {
+                      "title": "Show an <code>addresses</code> collection.",
+
+                      "response": {
+                        "$ref": "#/children/interfaces/definitions/addresses"
+                      }
+                    },
+                    "POST": {
+                      "title": "Creates a new <code>address</code>.",
+
+                      "request": {
+                        "$ref": "#/children/interfaces/definitions/address"
+                      },
+
+                      "response": {
+                        "$ref": "#/children/interfaces/definitions/address"
+                      }
+                    }
+                  },
+
+                  "children": {
+                    ":address": {
+                      "title": "Address.",
+
+                      "methods": {
+                        "GET"   : {
+                          "title": "Show an <code>address</code>.",
+
+                          "response": {
+                            "$ref": "#/children/interfaces/definitions/address"
+                          }
+                        },
+                        "PUT"   : {
+                          "title": "Updates an <code>address</code> properties.",
+
+                          "request": {
+                            "$ref": "#/children/interfaces/definitions/address"
+                          }
+                        },
+                        "DELETE": {
+                          "title": "Delete an <code>address</code>."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "loopbacks": {
+          "title": "Loopbacks information.",
+
+          "methods": {
+            "GET": {
+              "title": "Show a <code>loopbacks</code> collection.",
+
+              "response": {
+                "$ref": "#/children/interfaces/definitions/ethernets"
+              }
+            }
+          },
+
+          "children": {
+            ":name": {
+              "title": "Loopback.",
+
+              "methods": {
+                "GET"   : {
+                  "title": "Show a <code>loopback</code>.",
+
+                  "response": {
+                    "$ref": "#/children/interfaces/definitions/ethernet"
+                  }
+                },
+                "PUT"   : {
+                  "title": "Updates a <code>loopback</code> properties.",
+
+                  "request": {
+                    "$ref": "#/children/interfaces/definitions/ethernet"
+                  }
+                },
+                "DELETE": {
+                  "title"      : "Delete a <code>loopback</code>.",
+                  "description": "Deletes a <code>loopback</code> interface only if its operational status is <strong>NOTPRESENT</strong>. Thus, this operation is invalid otherwise."
                 }
               },
 
@@ -671,6 +765,105 @@
                 },
                 "DELETE": {
                   "title": "Delete a <code>tunable</code>."
+                }
+              }
+            }
+          }
+        },
+
+        "logging": {
+          "title": "System logging settings.",
+
+          "methods": {
+            "GET": {
+              "title": "Show system <code>logging</code> menu."
+            }
+          },
+
+          "children": {
+            "logs": {
+              "title": "System logs.",
+
+              "definitions": {
+                "logs": {
+                  "title": "A collection of <code>logs</code> objects.",
+                  "type" : "array",
+                  "items": {
+                    "$ref": "#/children/system/children/logging/children/logs/definitions/log"
+                  }
+                },
+                "log" : {
+                  "title"     : "A <code>log</code> object.",
+                  "type"      : "object",
+                  "properties": {
+                    "id"       : {
+                      "title"   : "An unique identifier for a particular <code>log</code>.",
+                      "type"    : "string",
+                      "required": true,
+                      "unique"  : true,
+                      "readonly": true
+                    },
+                    "module"   : {
+                      "title"   : "Module that this <code>log</code> belongs to.",
+                      "type"    : "string",
+                      "required": true
+                    },
+                    "tags"     : {
+                      "type" : "array",
+                      "items": {
+                        "title": "Categorize the <code>logs</code> to ease the search.",
+                        "type" : "string"
+                      }
+                    },
+                    "timestamp": {
+                      "title": "Time when it was generated.",
+                      "type" : "string"
+                    },
+                    "level"    : {
+                      "title"   : "Severity.",
+                      "type"    : "string",
+                      "enum"    : [
+                        "info",
+                        "warn",
+                        "error"
+                      ],
+                      "required": true
+                    },
+                    "message"  : {
+                      "title"   : "A description for the error.",
+                      "type"    : "string",
+                      "required": true
+                    }
+                  }
+                }
+              },
+
+              "methods": {
+                "GET": {
+                  "title": "Show system logs.",
+
+                  "response": {
+                    "$ref": "#/children/system/children/logging/children/logs/definitions/logs"
+                  }
+                }
+              },
+
+              "children": {
+                ":id": {
+                  "title": "Specific <code>log</code>.",
+
+                  "methods": {
+                    "GET"   : {
+                      "title": "Show a specific <code>log</code>.",
+
+                      "response": {
+                        "$ref": "#/children/system/children/logging/children/logs/definitions/log"
+                      }
+                    },
+                    "DELETE": {
+                      "title": "Delete a <code>log</code>."
+                    }
+                  }
                 }
               }
             }
