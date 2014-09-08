@@ -2,43 +2,6 @@
   "title"      : "vifros API root.",
   "description": "An hypermedia RESTful API to manage a vifros instance.",
 
-  "definitions": {
-    "settings": {
-      "title": "A collection of <code>settings</code> objects.",
-      "type" : "array",
-      "items": {
-        "$ref": "#/definitions/setting"
-      }
-    },
-    "setting" : {
-      "title"     : "A <code>setting</code> object.",
-      "type"      : "object",
-      "properties": {
-        "name"       : {
-          "title"   : "Name of the requested setting object.",
-          "type"    : "string",
-          "required": true,
-          "readonly": true,
-          "unique"  : true,
-          "enum"    : [
-            "hostname",
-            "domain",
-            "nameservers"
-          ]
-        },
-        "value"      : {
-          "title"   : "Value of the requested setting object. This value type depends on the <code>name</code> property.",
-          "type"    : "mixed",
-          "required": true
-        },
-        "description": {
-          "title": "Description for this <code>setting</code> object.",
-          "type" : "string"
-        }
-      }
-    }
-  },
-
   "methods": {
     "GET": {
       "title": "Show root level menu."
@@ -615,13 +578,51 @@
         },
 
         "settings": {
-          "title"  : "System specific settings.",
+          "title": "System specific settings.",
+
+          "definitions": {
+            "settings": {
+              "title": "A collection of <code>settings</code> objects.",
+              "type" : "array",
+              "items": {
+                "$ref": "#/children/system/children/settings/definitions/setting"
+              }
+            },
+            "setting" : {
+              "title"     : "A <code>setting</code> object.",
+              "type"      : "object",
+              "properties": {
+                "name"       : {
+                  "title"   : "Name of the requested setting object.",
+                  "type"    : "string",
+                  "required": true,
+                  "readonly": true,
+                  "unique"  : true,
+                  "enum"    : [
+                    "hostname",
+                    "domain",
+                    "nameservers"
+                  ]
+                },
+                "value"      : {
+                  "title"   : "Value of the requested setting object. This value type depends on the <code>name</code> property.",
+                  "type"    : "mixed",
+                  "required": true
+                },
+                "description": {
+                  "title": "Description for this <code>setting</code> object.",
+                  "type" : "string"
+                }
+              }
+            }
+          },
+
           "methods": {
             "GET": {
               "title": "Show system specific settings.",
 
               "response": {
-                "$ref": "#/definitions/settings"
+                "$ref": "#/children/system/children/settings/definitions/settings"
               }
             }
           },
@@ -635,7 +636,7 @@
                   "title": "Show a specific system <code>setting</code>.",
 
                   "response": {
-                    "$ref": "#/definitions/setting"
+                    "$ref": "#/children/system/children/settings/definitions/setting"
                   }
                 }
               },
@@ -862,6 +863,151 @@
                     },
                     "DELETE": {
                       "title": "Delete a <code>log</code>."
+                    }
+                  }
+                }
+              }
+            },
+
+            "settings": {
+              "title": "Logging specific settings.",
+
+              "definitions": {
+                "settings": {
+                  "title": "A collection of <code>settings</code> objects.",
+                  "type" : "array",
+                  "items": {
+                    "$ref": "#/children/system/children/logging/children/settings/definitions/setting"
+                  }
+                },
+                "setting" : {
+                  "title"     : "A <code>setting</code> object.",
+                  "type"      : "object",
+                  "properties": {
+                    "name"       : {
+                      "title"   : "Name of the requested setting object.",
+                      "type"    : "string",
+                      "required": true,
+                      "readonly": true,
+                      "unique"  : true,
+                      "enum"    : [
+                        "transport_console",
+                        "transport_file",
+                        "transport_mongodb"
+                      ]
+                    },
+                    "value"      : {
+                      "title"   : "Value of the requested setting object. This value type depends on the <code>name</code> property.",
+                      "type"    : "mixed",
+                      "required": true
+                    },
+                    "description": {
+                      "title": "Description for this <code>setting</code> object.",
+                      "type" : "string"
+                    }
+                  }
+                }
+              },
+
+              "methods": {
+                "GET": {
+                  "title": "Show logging specific settings.",
+
+                  "response": {
+                    "$ref": "#/children/system/children/logging/children/settings/definitions/settings"
+                  }
+                }
+              },
+
+              "children": {
+                ":name": {
+                  "title": "Specific logging setting name.",
+
+                  "methods": {
+                    "GET": {
+                      "title": "Show a specific logging <code>setting</code>.",
+
+                      "response": {
+                        "$ref": "#/children/system/children/logging/children/settings/definitions/setting"
+                      }
+                    }
+                  },
+
+                  "instances": {
+                    "transport_console": {
+                      "title": "Settings for the <code>console</code> transport.",
+                      "type" : "object",
+
+                      "properties": {
+                        "value": {
+                          "type": "object",
+
+                          "properties": {
+                            "enabled"     : {
+                              "title": "Whether the transport is enabled or not.",
+                              "type" : "boolean"
+                            },
+                            "colorize"     : {
+                              "title": "Whether the logs should be colorized in the output or not.",
+                              "type" : "boolean"
+                            },
+                            "timestamp"     : {
+                              "title": "Whether a timestamp should be added to the logs when they are generated.",
+                              "type" : "boolean"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "transport_file": {
+                      "title": "Settings for the <code>file</code> transport.",
+                      "type" : "object",
+
+                      "properties": {
+                        "value": {
+                          "type": "object",
+
+                          "properties": {
+                            "enabled"     : {
+                              "title": "Whether the transport is enabled or not.",
+                              "type" : "boolean"
+                            },
+                            "colorize"     : {
+                              "title": "Whether the logs should be colorized in the output or not.",
+                              "type" : "boolean"
+                            },
+                            "timestamp"     : {
+                              "title": "Whether a timestamp should be added to the logs when they are generated.",
+                              "type" : "boolean"
+                            },
+                            "filename"     : {
+                              "title": "The file path where the logs should be saved to.",
+                              "type" : "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "transport_mongodb": {
+                      "title": "Settings for the <code>mongodb</code> transport.",
+                      "type" : "object",
+
+                      "properties": {
+                        "value": {
+                          "type": "object",
+
+                          "properties": {
+                            "enabled"     : {
+                              "title": "Whether the transport is enabled or not.",
+                              "type" : "boolean"
+                            },
+                            "db"     : {
+                              "title": "The database name where the logs should be saved to.",
+                              "type" : "string"
+                            }
+                          }
+                        }
+                      }
                     }
                   }
                 }
