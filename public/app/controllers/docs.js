@@ -80,7 +80,7 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
     var tabs = [];
     for (var method in node.methods) {
       if (node.methods.hasOwnProperty(method)) {
-        var content = JSON.parse(JSON.stringify(node.methods[method]));
+        var content = angular.copy(node.methods[method]);
 
         if (node.methods[method].request) {
           content.request = {

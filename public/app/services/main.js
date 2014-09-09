@@ -14,8 +14,14 @@ app.factory('APIService', function ($http, $localStorage, UtilsService, APISchem
 
   function setURL(url) {
     api.url = url;
-    $localStorage.api = {
-      url: url
+
+    if ($localStorage.api) {
+      $localStorage.api.url = url;
+    }
+    else {
+      $localStorage.api = {
+        url: url
+      }
     }
   }
 
