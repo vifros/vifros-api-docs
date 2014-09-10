@@ -663,12 +663,12 @@
                   "properties": {
                     "value": {
                       "type" : "string",
-                      "title": "The domain of the operating system."
+                      "title": "The domain of the operating system. It must be a valid <abbr title='Full Qualified Domain Name'>FQDN</abbr>."
                     }
                   }
                 },
                 "nameservers": {
-                  "title"     : "The nameservers of the operating system.",
+                  "title"     : "The nameservers of the operating system. They must be valid <abbr title='Internet Protocol'>IP</abbr> addresses.",
                   "type"      : "object",
                   "properties": {
                     "value": {
