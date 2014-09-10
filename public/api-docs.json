@@ -943,15 +943,15 @@
                           "type": "object",
 
                           "properties": {
-                            "enabled"     : {
+                            "enabled"  : {
                               "title": "Whether the transport is enabled or not.",
                               "type" : "boolean"
                             },
-                            "colorize"     : {
+                            "colorize" : {
                               "title": "Whether the logs should be colorized in the output or not.",
                               "type" : "boolean"
                             },
-                            "timestamp"     : {
+                            "timestamp": {
                               "title": "Whether a timestamp should be added to the logs when they are generated.",
                               "type" : "boolean"
                             }
@@ -959,7 +959,7 @@
                         }
                       }
                     },
-                    "transport_file": {
+                    "transport_file"   : {
                       "title": "Settings for the <code>file</code> transport.",
                       "type" : "object",
 
@@ -968,19 +968,19 @@
                           "type": "object",
 
                           "properties": {
-                            "enabled"     : {
+                            "enabled"  : {
                               "title": "Whether the transport is enabled or not.",
                               "type" : "boolean"
                             },
-                            "colorize"     : {
+                            "colorize" : {
                               "title": "Whether the logs should be colorized in the output or not.",
                               "type" : "boolean"
                             },
-                            "timestamp"     : {
+                            "timestamp": {
                               "title": "Whether a timestamp should be added to the logs when they are generated.",
                               "type" : "boolean"
                             },
-                            "filename"     : {
+                            "filename" : {
                               "title": "The file path where the logs should be saved to.",
                               "type" : "string"
                             }
@@ -997,7 +997,7 @@
                           "type": "object",
 
                           "properties": {
-                            "enabled"     : {
+                            "enabled": {
                               "title": "Whether the transport is enabled or not.",
                               "type" : "boolean"
                             },
