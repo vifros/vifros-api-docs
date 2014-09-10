@@ -638,6 +638,13 @@
                   "response": {
                     "$ref": "#/children/system/children/settings/definitions/setting"
                   }
+                },
+                "PUT": {
+                  "title": "Updates a system setting.",
+
+                  "request": {
+                    "$ref":  "#/children/system/children/settings/definitions/setting"
+                  }
                 }
               },
 
