@@ -21,7 +21,6 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
       // Inject shortcut handy properties that can be inferred.
       object.path = stack.slice(-1)[0];
 
-      var cached_path = stack.join('');
       var methods_map = {
         GET   : {
           cmd  : 'show',
@@ -43,9 +42,31 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
 
       for (var method in object.methods) {
         if (object.methods.hasOwnProperty(method)) {
+          var processed_path = [];
+          for (var i = 0, j = stack.length;
+               i < j;
+               i++) {
+
+            if (stack[i] == 'children') {
+              continue;
+            }
+
+            var instance = '';
+            if (stack[i].search(':') != -1) {
+              instance = '<span class="text-' + methods_map[method].color + '">'
+                + stack[i]
+                + '</span>';
+            }
+            else {
+              instance = stack[i];
+            }
+
+            processed_path.push(instance);
+          }
+
           object.methods[method].usage = {
-            CLI : 'vifros ' + methods_map[method].cmd + cached_path.replace(/children/g, ' '),
-            HTTP: '<span class="label label-' + methods_map[method].color + '">' + method + '</span> ' + cached_path.replace(/children/g, '/')
+            CLI : 'vifros ' + methods_map[method].cmd + ' ' + processed_path.join(' '),
+            HTTP: '<span class="label label-' + methods_map[method].color + '">' + method + '</span> ' + processed_path.join('/')
           }
         }
       }

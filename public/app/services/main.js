@@ -85,10 +85,12 @@ app.factory('UtilsService', function () {
    *
    * @param   {Object}    object
    * @param   {String}    path        A path to the object: 'a.path.to.the.object'
+   * @param   {String}    sep         The separator between nested properties. Default '.'
    * @returns {Object|null}
    */
-  function findProp(object, path) {
-    var args = path.split('.');
+  function findProp(object, path, sep) {
+    var sep = sep || '.';
+    var args = path.split(sep);
     var i;
     var l;
 
@@ -107,10 +109,12 @@ app.factory('UtilsService', function () {
    * @param path
    * @param value
    * @param root
+   * @param sep
    * @returns {*}
    */
-  function setProp(path, value, root) {
-    var segments = path.split('.');
+  function setProp(path, value, root, sep) {
+    var sep = sep || '.';
+    var segments = path.split(sep);
     var cursor = root || window;
     var segment;
     var i;
@@ -131,7 +135,7 @@ app.factory('UtilsService', function () {
 
 app.factory('APISchemaService', function (UtilsService) {
   function resolveSchema(schema) {
-    var resolved_schema = angular.copy(schema);
+    var resolved_schema = JSON.parse(JSON.stringify(schema));
 
     UtilsService.iterate(schema, [], function (object, stack) {
       /*
@@ -142,10 +146,10 @@ app.factory('APISchemaService', function (UtilsService) {
         // Resolve $ref path.
         var ref = object.$ref
           .replace('#/', '')
-          .replace(/\//g, '.');
+          .replace(/\//g, '/');
 
-        var new_object = UtilsService.findProp(resolved_schema, ref);
-        UtilsService.setProp(stack.join('.'), new_object, resolved_schema);
+        var new_object = UtilsService.findProp(resolved_schema, ref, '/');
+        UtilsService.setProp(stack.join('/'), new_object, resolved_schema, '/');
       }
       /*
        * TODO: Process allOf.

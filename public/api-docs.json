@@ -41,14 +41,14 @@
                 "operational": {
                   "title"   : "The real status this interface has.<br />Possible values are:<br /><ul class='docs-no-margin-bottom'><li><abbr title='Ready to pass packets (if admin status is changed to up, then operational status should change to up if the interface is ready to transmit and receive network traffic).'>UP</abbr></li><li><abbr title='If admin status is down, then operational status should be down.'>DOWN</abbr></li><li><abbr title='Status can not be determined for some reason.'>UNKNOWN</abbr></li><li><abbr title='Some component is missing, typically hardware.'>NOTPRESENT</abbr></li></ul>",
                   "type"    : "string",
-                  "required": true,
                   "readonly": true,
                   "enum"    : [
                     "UP",
                     "DOWN",
                     "UNKNOWN",
                     "NOTPRESENT"
-                  ]
+                  ],
+                  "default" : "UP"
                 }
               }
             },
@@ -85,30 +85,24 @@
           "title"     : "A single IP <code>address</code>.",
           "type"      : "object",
           "properties": {
-            "interface"  : {
-              "title"   : "The parent interface this <code>address</code> should belowns to.",
-              "type"    : "string",
-              "required": true,
-              "readonly": true
-            },
             "address"    : {
-              "title"   : "The <code>address</code> of the interface. The format of the <code>address</code> depends on the protocol. It is a dotted quad for IP and a sequence of hexadecimal halfwords separated by colons for IPv6. The <code>address</code> may be followed by a slash and a decimal number which encodes the network prefix length.",
+              "title"   : "The address of the interface. The format of the address depends on the protocol. It is a dotted quad for IP and a sequence of hexadecimal halfwords separated by colons for IPv6. The address may be followed by a slash and a decimal number which encodes the network prefix length.",
               "type"    : "string",
               "required": true,
               "readonly": true
             },
             "peer"       : {
-              "title"   : "The <code>address</code> of the remote endpoint for pointopoint interfaces. Again, the <code>address</code> may be followed by a slash and a decimal number, encoding the network prefix length. If a peer address is specified, the local address cannot have a prefix length. The network prefix is associated with the peer rather than with the local address.",
+              "title"   : "The address of the remote endpoint for pointopoint interfaces. Again, the address may be followed by a slash and a decimal number, encoding the network prefix length. If a peer address is specified, the local address cannot have a prefix length. The network prefix is associated with the peer rather than with the local address.",
               "type"    : "string",
               "readonly": true
             },
             "broadcast"  : {
-              "title"   : "The broadcast <code>address</code> on the interface. It is possible to use the special symbols <code>+</code> and <code>-</code> instead of the broadcast address. In this case, the broadcast address is derived by setting/resetting the host bits of the interface prefix.<br /><br /><div class='alert alert-danger docs-no-margin-bottom'><strong>Warning:</strong>&nbsp;This field is not set unless explicitly requested.</div>",
+              "title"   : "The broadcast address on the interface. It is possible to use the special symbols <code>+</code> and <code>-</code> instead of the broadcast address. In this case, the broadcast address is derived by setting/resetting the host bits of the interface prefix.<br /><br /><div class='alert alert-danger docs-no-margin-bottom'><strong>Warning:</strong>&nbsp;This field is not set unless explicitly requested.</div>",
               "type"    : "string",
               "readonly": true
             },
             "scope"      : {
-              "title"   : "The scope of the area where this <code>address</code> is valid.<br />Possible values are:<br /><ul class='docs-no-margin-bottom'><li><abbr title='the address is valid only inside this host.'>host</abbr></abbr></li><li><abbr title='The address is link local, i.e. it is valid only on this device.'>link</abbr></li><li><abbr title='The address is globally valid.'>global</abbr></li><li>nowhere</li><li><abbr title='(IPv6 only) the address is site local, i.e. it is valid inside this site.'>site</abbr></li></ul>",
+              "title"   : "The scope of the area where this address is valid.<br />Possible values are:<br /><ul class='docs-no-margin-bottom'><li><abbr title='the address is valid only inside this host.'>host</abbr></abbr></li><li><abbr title='The address is link local, i.e. it is valid only on this device.'>link</abbr></li><li><abbr title='The address is globally valid.'>global</abbr></li><li>nowhere</li><li><abbr title='(IPv6 only) the address is site local, i.e. it is valid inside this site.'>site</abbr></li></ul>",
               "type"    : "string",
               "enum"    : [
                 "host",
@@ -117,6 +111,67 @@
                 "nowhere",
                 "site"
               ],
+              "readonly": true
+            },
+            "description": {
+              "type" : "string",
+              "title": "Description."
+            }
+          }
+        },
+        "vlans"    : {
+          "title": "A collection of VLANs.",
+          "type" : "array",
+          "items": {
+            "$ref": "#/children/interfaces/definitions/vlan"
+          }
+        },
+        "vlan"     : {
+          "title"     : "A single VLAN.",
+          "type"      : "object",
+          "properties": {
+            "status"     : {
+              "title": "Status.",
+              "type" : "object",
+
+              "properties": {
+                "admin"      : {
+                  "title"   : "The status desired by the user for this interface to have.<br />Possible values are:<br /><ul class='docs-no-margin-bottom'><li><abbr title='Ready to pass packets (if admin status is changed to up, then operational status should change to up if the interface is ready to transmit and receive network traffic).'>UP</abbr></li><li><abbr title='If admin status is down, then operational status should be down.'>DOWN</abbr></li></ul>",
+                  "type"    : "string",
+                  "required": true,
+                  "enum"    : [
+                    "UP",
+                    "DOWN"
+                  ],
+                  "default" : "UP"
+                },
+                "operational": {
+                  "title"   : "The real status this interface has.<br />Possible values are:<br /><ul class='docs-no-margin-bottom'><li><abbr title='Ready to pass packets (if admin status is changed to up, then operational status should change to up if the interface is ready to transmit and receive network traffic).'>UP</abbr></li><li><abbr title='If admin status is down, then operational status should be down.'>DOWN</abbr></li><li><abbr title='Status can not be determined for some reason.'>UNKNOWN</abbr></li><li><abbr title='Some component is missing, typically hardware.'>NOTPRESENT</abbr></li><li><abbr title='Down due to state of lower layer interface.'>LOWERLAYERDOWN</abbr></li></ul>",
+                  "type"    : "string",
+                  "readonly": true,
+                  "enum"    : [
+                    "UP",
+                    "DOWN",
+                    "UNKNOWN",
+                    "NOTPRESENT",
+                    "LOWERLAYERDOWN"
+                  ]
+                }
+              }
+            },
+            "interface"  : {
+              "title"   : "The parent interface this VLAN belongs to.",
+              "type"    : "string",
+              "required": true,
+              "readonly": true
+            },
+            "tag"        : {
+              "title"   : "The VLAN tag identifier.",
+              "type"    : "number",
+              "minimum" : 0,
+              "maximum" : 4095,
+              "required": true,
+              "unique"  : true,
               "readonly": true
             },
             "description": {
@@ -168,7 +223,7 @@
                 },
                 "DELETE": {
                   "title"      : "Delete an <code>ethernet</code>.",
-                  "description": "Deletes an <code>ethernet</code> interface only if its operational status is <strong>NOTPRESENT</strong>. Thus, this operation is invalid otherwise."
+                  "description": "Only <code>ethernet</code> interfaces with its operational status equal to <strong>NOTPRESENT</strong> can be deleted. Thus, this operation will turn invalid otherwise."
                 }
               },
 
@@ -263,6 +318,109 @@
                 "DELETE": {
                   "title"      : "Delete a <code>loopback</code>.",
                   "description": "Deletes a <code>loopback</code> interface only if its operational status is <strong>NOTPRESENT</strong>. Thus, this operation is invalid otherwise."
+                }
+              },
+
+              "children": {
+                "addresses": {
+                  "title": "Addresses.",
+
+                  "methods": {
+                    "GET" : {
+                      "title": "Show an <code>addresses</code> collection.",
+
+                      "response": {
+                        "$ref": "#/children/interfaces/definitions/addresses"
+                      }
+                    },
+                    "POST": {
+                      "title": "Creates a new <code>address</code>.",
+
+                      "request": {
+                        "$ref": "#/children/interfaces/definitions/address"
+                      },
+
+                      "response": {
+                        "$ref": "#/children/interfaces/definitions/address"
+                      }
+                    }
+                  },
+
+                  "children": {
+                    ":address": {
+                      "title": "Address.",
+
+                      "methods": {
+                        "GET"   : {
+                          "title": "Show an <code>address</code>.",
+
+                          "response": {
+                            "$ref": "#/children/interfaces/definitions/address"
+                          }
+                        },
+                        "PUT"   : {
+                          "title": "Updates an <code>address</code> properties.",
+
+                          "request": {
+                            "$ref": "#/children/interfaces/definitions/address"
+                          }
+                        },
+                        "DELETE": {
+                          "title": "Delete an <code>address</code>."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "vlans": {
+          "title": "VLANs information.",
+
+          "methods": {
+            "GET" : {
+              "title": "Show a <code>VLAN</code> collection.",
+
+              "response": {
+                "$ref": "#/children/interfaces/definitions/vlans"
+              }
+            },
+            "POST": {
+              "title": "Show a <code>VLAN</code> collection.",
+
+              "request" : {
+                "$ref": "#/children/interfaces/definitions/vlan"
+              },
+              "response": {
+                "$ref": "#/children/interfaces/definitions/vlan"
+              }
+            }
+          },
+
+          "children": {
+            ":interface.:tag": {
+              "title": "VLAN.",
+
+              "methods": {
+                "GET"   : {
+                  "title": "Show a <code>VLAN</code>.",
+
+                  "response": {
+                    "$ref": "#/children/interfaces/definitions/vlan"
+                  }
+                },
+                "PUT"   : {
+                  "title": "Updates a <code>VLAN</code> properties.",
+
+                  "request": {
+                    "$ref": "#/children/interfaces/definitions/vlan"
+                  }
+                },
+                "DELETE": {
+                  "title": "Delete a <code>VLAN</code>."
                 }
               },
 
@@ -643,7 +801,7 @@
                   "title": "Updates a system setting.",
 
                   "request": {
-                    "$ref":  "#/children/system/children/settings/definitions/setting"
+                    "$ref": "#/children/system/children/settings/definitions/setting"
                   }
                 }
               },
@@ -712,7 +870,7 @@
               "type"      : "object",
               "properties": {
                 "path"       : {
-                  "title"   : "The file path to the <kbd>/proc/sys/</kbd> setting that wants to be tuned.",
+                  "title"   : "The file path to the <kbd>/proc/sys/</kbd> setting that is wanted to be tuned.",
                   "type"    : "string",
                   "required": true,
                   "unique"  : true,
@@ -824,8 +982,9 @@
                       }
                     },
                     "timestamp": {
-                      "title": "Time when it was generated.",
-                      "type" : "string"
+                      "title"   : "Time when it was generated.",
+                      "type"    : "string",
+                      "required": true
                     },
                     "level"    : {
                       "title"   : "Severity.",
@@ -937,6 +1096,13 @@
                       "response": {
                         "$ref": "#/children/system/children/logging/children/settings/definitions/setting"
                       }
+                    },
+                    "PUT": {
+                      "title": "Updates a logging setting.",
+
+                      "request": {
+                        "$ref": "#/children/system/children/logging/children/settings/definitions/setting"
+                      }
                     }
                   },
 
@@ -951,16 +1117,19 @@
 
                           "properties": {
                             "enabled"  : {
-                              "title": "Whether the transport is enabled or not.",
-                              "type" : "boolean"
+                              "title"  : "Whether the transport is enabled or not.",
+                              "type"   : "boolean",
+                              "default": true
                             },
                             "colorize" : {
-                              "title": "Whether the logs should be colorized in the output or not.",
-                              "type" : "boolean"
+                              "title"  : "Whether the logs should be colorized in the output or not.",
+                              "type"   : "boolean",
+                              "default": true
                             },
                             "timestamp": {
-                              "title": "Whether a timestamp should be added to the logs when they are generated.",
-                              "type" : "boolean"
+                              "title"  : "Whether a timestamp should be added to the logs when they are generated.",
+                              "type"   : "boolean",
+                              "default": false
                             }
                           }
                         }
@@ -976,20 +1145,24 @@
 
                           "properties": {
                             "enabled"  : {
-                              "title": "Whether the transport is enabled or not.",
-                              "type" : "boolean"
+                              "title"  : "Whether the transport is enabled or not.",
+                              "type"   : "boolean",
+                              "default": true
                             },
                             "colorize" : {
-                              "title": "Whether the logs should be colorized in the output or not.",
-                              "type" : "boolean"
+                              "title"  : "Whether the logs should be colorized in the output or not.",
+                              "type"   : "boolean",
+                              "default": true
                             },
                             "timestamp": {
-                              "title": "Whether a timestamp should be added to the logs when they are generated.",
-                              "type" : "boolean"
+                              "title"  : "Whether a timestamp should be added to the logs when they are generated.",
+                              "type"   : "boolean",
+                              "default": true
                             },
                             "filename" : {
-                              "title": "The file path where the logs should be saved to.",
-                              "type" : "string"
+                              "title"  : "The file path where the logs should be saved to.",
+                              "type"   : "string",
+                              "default": "/var/log/vifros.log"
                             }
                           }
                         }
@@ -1005,12 +1178,14 @@
 
                           "properties": {
                             "enabled": {
-                              "title": "Whether the transport is enabled or not.",
-                              "type" : "boolean"
+                              "title"  : "Whether the transport is enabled or not.",
+                              "type"   : "boolean",
+                              "default": true
                             },
                             "db"     : {
-                              "title": "The database name where the logs should be saved to.",
-                              "type" : "string"
+                              "title"  : "The database name where the logs should be saved to.",
+                              "type"   : "string",
+                              "default": "vifros"
                             }
                           }
                         }
