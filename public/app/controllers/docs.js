@@ -66,7 +66,7 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
 
           object.methods[method].usage = {
             CLI : 'vifros ' + methods_map[method].cmd + ' ' + processed_path.join(' '),
-            HTTP: '<span class="label label-' + methods_map[method].color + '">' + method + '</span> ' + processed_path.join('/')
+            HTTP: '<span class="label label-' + methods_map[method].color + '">' + method + '</span> /' + processed_path.join('/')
           }
         }
       }

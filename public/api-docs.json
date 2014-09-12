@@ -1198,6 +1198,122 @@
           }
         }
       }
+    },
+
+    "routing": {
+      "title": "Routing related functionality.",
+
+      "methods": {
+        "GET": {
+          "title": "Show <code>routing</code> level menu."
+        }
+      },
+
+      "children": {
+        "settings": {
+          "title": "Routing specific settings.",
+
+          "definitions": {
+            "settings": {
+              "title": "A collection of <code>settings</code> objects.",
+              "type" : "array",
+              "items": {
+                "$ref": "#/children/routing/children/settings/definitions/setting"
+              }
+            },
+            "setting" : {
+              "title"     : "A <code>setting</code> object.",
+              "type"      : "object",
+              "properties": {
+                "name"       : {
+                  "title"   : "Name of the requested setting object.",
+                  "type"    : "string",
+                  "required": true,
+                  "readonly": true,
+                  "unique"  : true,
+                  "enum"    : [
+                    "ip_forward_v4",
+                    "ip_forward_v6"
+                  ]
+                },
+                "value"      : {
+                  "title"   : "Value of the requested setting object. This value type depends on the <code>name</code> property.",
+                  "type"    : "mixed",
+                  "required": true
+                },
+                "description": {
+                  "title": "Description for this <code>setting</code> object.",
+                  "type" : "string"
+                }
+              }
+            }
+          },
+
+          "methods": {
+            "GET": {
+              "title": "Show routing specific settings.",
+
+              "response": {
+                "$ref": "#/children/routing/children/settings/definitions/settings"
+              }
+            }
+          },
+
+          "children": {
+            ":name": {
+              "title": "Specific routing setting name.",
+
+              "methods": {
+                "GET": {
+                  "title": "Show a specific routing <code>setting</code>.",
+
+                  "response": {
+                    "$ref": "#/children/routing/children/settings/definitions/setting"
+                  }
+                },
+                "PUT": {
+                  "title": "Updates a routing setting.",
+
+                  "request": {
+                    "$ref": "#/children/routing/children/settings/definitions/setting"
+                  }
+                }
+              },
+
+              "instances": {
+                "ip_forward_v4": {
+                  "type"      : "object",
+                  "properties": {
+                    "value": {
+                      "type"   : "number",
+                      "title"  : "IPv4 Packet Forwarding status.<br />Possible values are:<br /><ul class='docs-no-margin-bottom'><li><abbr title='Disable the packet forwarding.'>0</abbr></li><li><abbr title='Enable the packet forwarding.'>1</abbr></li></ul>",
+                      "enum"   : [
+                        0,
+                        1
+                      ],
+                      "default": 0
+                    }
+                  }
+                },
+                "ip_forward_v6": {
+                  "type"      : "object",
+                  "properties": {
+                    "value": {
+                      "type"   : "number",
+                      "title"  : "IPv6 Packet Forwarding status.<br />Possible values are:<br /><ul class='docs-no-margin-bottom'><li><abbr title='Disable the packet forwarding.'>0</abbr></li><li><abbr title='Enable the packet forwarding.'>1</abbr></li></ul>",
+                      "enum"   : [
+                        0,
+                        1
+                      ],
+                      "default": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
