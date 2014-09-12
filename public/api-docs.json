@@ -1312,6 +1312,107 @@
               }
             }
           }
+        },
+
+        "static": {
+          "title": "Static routing specific functionality.",
+
+          "methods": {
+            "GET": {
+              "title": "Show static routing menu."
+            }
+          },
+
+          "children": {
+            "tables": {
+              "title": "Routing tables.",
+
+              "definitions": {
+                "tables": {
+                  "title": "A collection of <code>tables</code> objects.",
+                  "type" : "array",
+                  "items": {
+                    "$ref": "#/children/routing/children/static/children/tables/definitions/table"
+                  }
+                },
+                "table" : {
+                  "title"     : "A <code>table</code> object.",
+                  "type"      : "object",
+                  "properties": {
+                    "name"       : {
+                      "title"   : "Name of the requested table object.",
+                      "type"    : "string",
+                      "required": true,
+                      "readonly": true,
+                      "unique"  : true
+                    },
+                    "id"         : {
+                      "title"   : "Identifier of the requested table object.",
+                      "type"    : "number",
+                      "required": true,
+                      "readonly": true,
+                      "unique"  : true,
+                      "minimum" : 0,
+                      "maximum" : 2147483648
+                    },
+                    "description": {
+                      "title": "Description for this <code>table</code> object.",
+                      "type" : "string"
+                    }
+                  }
+                }
+              },
+
+              "methods": {
+                "GET" : {
+                  "title": "Show a <code>tables</code> collection.",
+
+                  "response": {
+                    "$ref": "#/children/routing/children/static/children/tables/definitions/tables"
+                  }
+                },
+                "POST": {
+                  "title": "Creates a new <code>table</code>.",
+
+                  "request": {
+                    "$ref": "#/children/routing/children/static/children/tables/definitions/table"
+                  },
+
+                  "response": {
+                    "$ref": "#/children/routing/children/static/children/tables/definitions/table"
+                  }
+                }
+              },
+
+              "children": {
+                ":id": {
+                  "title": "Specific table.",
+
+                  "methods": {
+                    "GET"   : {
+                      "title": "Show a specific <code>table</code>.",
+
+                      "response": {
+                        "$ref": "#/children/routing/children/static/children/tables/definitions/table"
+                      }
+                    },
+                    "PUT"   : {
+                      "title": "Updates a <code>table</code> properties.",
+
+                      "request": {
+                        "$ref": "#/children/routing/children/static/children/tables/definitions/table"
+                      }
+                    },
+                    "DELETE": {
+                      "title": "Delete a <code>table</code>."
+                    }
+                  }
+                }
+              }
+            },
+
+            "rules": {}
+          }
         }
       }
     }
