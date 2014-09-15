@@ -1,3 +1,5 @@
+Show flags depending on the HTTP method.
+
 Add support for specific type properties, like:
 	* minimum
 	* maximum

@@ -30,13 +30,13 @@
 
               "properties": {
                 "admin"      : {
-                  "title"   : "The status desired by the user for this interface to have.<br />Possible values are:<br /><ul class='docs-no-margin-bottom'><li><abbr title='Ready to pass packets (if admin status is changed to up, then operational status should change to up if the interface is ready to transmit and receive network traffic).'>UP</abbr></li><li><abbr title='If admin status is down, then operational status should be down.'>DOWN</abbr></li></ul>",
-                  "type"    : "string",
-                  "required": true,
-                  "enum"    : [
+                  "title"  : "The status desired by the user for this interface to have.<br />Possible values are:<br /><ul class='docs-no-margin-bottom'><li><abbr title='Ready to pass packets (if admin status is changed to up, then operational status should change to up if the interface is ready to transmit and receive network traffic).'>UP</abbr></li><li><abbr title='If admin status is down, then operational status should be down.'>DOWN</abbr></li></ul>",
+                  "type"   : "string",
+                  "enum"   : [
                     "UP",
                     "DOWN"
-                  ]
+                  ],
+                  "default": "UP"
                 },
                 "operational": {
                   "title"   : "The real status this interface has.<br />Possible values are:<br /><ul class='docs-no-margin-bottom'><li><abbr title='Ready to pass packets (if admin status is changed to up, then operational status should change to up if the interface is ready to transmit and receive network traffic).'>UP</abbr></li><li><abbr title='If admin status is down, then operational status should be down.'>DOWN</abbr></li><li><abbr title='Status can not be determined for some reason.'>UNKNOWN</abbr></li><li><abbr title='Some component is missing, typically hardware.'>NOTPRESENT</abbr></li></ul>",
@@ -47,8 +47,7 @@
                     "DOWN",
                     "UNKNOWN",
                     "NOTPRESENT"
-                  ],
-                  "default" : "UP"
+                  ]
                 }
               }
             },
@@ -75,24 +74,25 @@
           }
         },
         "addresses": {
-          "title": "A collection of IP <code>addresses</code>.",
+          "title": "A collection of IP addresses.",
           "type" : "array",
           "items": {
             "$ref": "#/children/interfaces/definitions/address"
           }
         },
         "address"  : {
-          "title"     : "A single IP <code>address</code>.",
+          "title"     : "A single IP address.",
           "type"      : "object",
           "properties": {
             "address"    : {
               "title"   : "The address of the interface. The format of the address depends on the protocol. It is a dotted quad for IP and a sequence of hexadecimal halfwords separated by colons for IPv6. The address may be followed by a slash and a decimal number which encodes the network prefix length.",
               "type"    : "string",
               "required": true,
+              "unique"  : true,
               "readonly": true
             },
             "peer"       : {
-              "title"   : "The address of the remote endpoint for pointopoint interfaces. Again, the address may be followed by a slash and a decimal number, encoding the network prefix length. If a peer address is specified, the local address cannot have a prefix length. The network prefix is associated with the peer rather than with the local address.",
+              "title"   : "The address of the remote endpoint for pointopoint interfaces. The address may be followed by a slash and a decimal number, encoding the network prefix length. If a peer address is specified, the local address cannot have a prefix length. The network prefix is associated with the peer rather than with the local address.",
               "type"    : "string",
               "readonly": true
             },
@@ -102,7 +102,7 @@
               "readonly": true
             },
             "scope"      : {
-              "title"   : "The scope of the area where this address is valid.<br />Possible values are:<br /><ul class='docs-no-margin-bottom'><li><abbr title='the address is valid only inside this host.'>host</abbr></abbr></li><li><abbr title='The address is link local, i.e. it is valid only on this device.'>link</abbr></li><li><abbr title='The address is globally valid.'>global</abbr></li><li>nowhere</li><li><abbr title='(IPv6 only) the address is site local, i.e. it is valid inside this site.'>site</abbr></li></ul>",
+              "title"   : "The scope of the area where this address is valid.<br />Possible values are:<br /><ul class='docs-no-margin-bottom'><li><abbr title='The address is valid only inside this host.'>host</abbr></abbr></li><li><abbr title='The address is link local, i.e. it is valid only on this device.'>link</abbr></li><li><abbr title='The address is globally valid.'>global</abbr></li><li>nowhere</li><li><abbr title='(IPv6 only) The address is site local, i.e. it is valid inside this site.'>site</abbr></li></ul>",
               "type"    : "string",
               "enum"    : [
                 "host",
@@ -136,14 +136,13 @@
 
               "properties": {
                 "admin"      : {
-                  "title"   : "The status desired by the user for this interface to have.<br />Possible values are:<br /><ul class='docs-no-margin-bottom'><li><abbr title='Ready to pass packets (if admin status is changed to up, then operational status should change to up if the interface is ready to transmit and receive network traffic).'>UP</abbr></li><li><abbr title='If admin status is down, then operational status should be down.'>DOWN</abbr></li></ul>",
-                  "type"    : "string",
-                  "required": true,
-                  "enum"    : [
+                  "title"  : "The status desired by the user for this interface to have.<br />Possible values are:<br /><ul class='docs-no-margin-bottom'><li><abbr title='Ready to pass packets (if admin status is changed to up, then operational status should change to up if the interface is ready to transmit and receive network traffic).'>UP</abbr></li><li><abbr title='If admin status is down, then operational status should be down.'>DOWN</abbr></li></ul>",
+                  "type"   : "string",
+                  "enum"   : [
                     "UP",
                     "DOWN"
                   ],
-                  "default" : "UP"
+                  "default": "UP"
                 },
                 "operational": {
                   "title"   : "The real status this interface has.<br />Possible values are:<br /><ul class='docs-no-margin-bottom'><li><abbr title='Ready to pass packets (if admin status is changed to up, then operational status should change to up if the interface is ready to transmit and receive network traffic).'>UP</abbr></li><li><abbr title='If admin status is down, then operational status should be down.'>DOWN</abbr></li><li><abbr title='Status can not be determined for some reason.'>UNKNOWN</abbr></li><li><abbr title='Some component is missing, typically hardware.'>NOTPRESENT</abbr></li><li><abbr title='Down due to state of lower layer interface.'>LOWERLAYERDOWN</abbr></li></ul>",
@@ -184,7 +183,7 @@
 
       "methods": {
         "GET": {
-          "title": "Show <code>interfaces</code> level menu."
+          "title": "Show interfaces level menu."
         }
       },
 
@@ -194,7 +193,7 @@
 
           "methods": {
             "GET": {
-              "title": "Show an <code>ethernets</code> collection.",
+              "title": "Show an ethernets collection.",
 
               "response": {
                 "$ref": "#/children/interfaces/definitions/ethernets"
@@ -208,22 +207,22 @@
 
               "methods": {
                 "GET"   : {
-                  "title": "Show an <code>ethernet</code>.",
+                  "title": "Show an ethernet.",
 
                   "response": {
                     "$ref": "#/children/interfaces/definitions/ethernet"
                   }
                 },
                 "PUT"   : {
-                  "title": "Updates an <code>ethernet</code> properties.",
+                  "title": "Updates an ethernet properties.",
 
                   "request": {
                     "$ref": "#/children/interfaces/definitions/ethernet"
                   }
                 },
                 "DELETE": {
-                  "title"      : "Delete an <code>ethernet</code>.",
-                  "description": "Only <code>ethernet</code> interfaces with its operational status equal to <strong>NOTPRESENT</strong> can be deleted. Thus, this operation will turn invalid otherwise."
+                  "title"      : "Delete an ethernet.",
+                  "description": "Only ethernet interfaces with its operational status equal to <strong>NOTPRESENT</strong> can be deleted. Thus, this operation will turn invalid otherwise."
                 }
               },
 
@@ -233,14 +232,14 @@
 
                   "methods": {
                     "GET" : {
-                      "title": "Show an <code>addresses</code> collection.",
+                      "title": "Show an addresses collection.",
 
                       "response": {
                         "$ref": "#/children/interfaces/definitions/addresses"
                       }
                     },
                     "POST": {
-                      "title": "Creates a new <code>address</code>.",
+                      "title": "Creates a new address.",
 
                       "request": {
                         "$ref": "#/children/interfaces/definitions/address"
@@ -258,21 +257,21 @@
 
                       "methods": {
                         "GET"   : {
-                          "title": "Show an <code>address</code>.",
+                          "title": "Show an address.",
 
                           "response": {
                             "$ref": "#/children/interfaces/definitions/address"
                           }
                         },
                         "PUT"   : {
-                          "title": "Updates an <code>address</code> properties.",
+                          "title": "Updates an address properties.",
 
                           "request": {
                             "$ref": "#/children/interfaces/definitions/address"
                           }
                         },
                         "DELETE": {
-                          "title": "Delete an <code>address</code>."
+                          "title": "Delete an address."
                         }
                       }
                     }
@@ -288,7 +287,7 @@
 
           "methods": {
             "GET": {
-              "title": "Show a <code>loopbacks</code> collection.",
+              "title": "Show a loopbacks collection.",
 
               "response": {
                 "$ref": "#/children/interfaces/definitions/ethernets"
@@ -302,22 +301,22 @@
 
               "methods": {
                 "GET"   : {
-                  "title": "Show a <code>loopback</code>.",
+                  "title": "Show a loopback.",
 
                   "response": {
                     "$ref": "#/children/interfaces/definitions/ethernet"
                   }
                 },
                 "PUT"   : {
-                  "title": "Updates a <code>loopback</code> properties.",
+                  "title": "Updates a loopback properties.",
 
                   "request": {
                     "$ref": "#/children/interfaces/definitions/ethernet"
                   }
                 },
                 "DELETE": {
-                  "title"      : "Delete a <code>loopback</code>.",
-                  "description": "Deletes a <code>loopback</code> interface only if its operational status is <strong>NOTPRESENT</strong>. Thus, this operation is invalid otherwise."
+                  "title"      : "Delete a loopback.",
+                  "description": "Deletes a loopback interface only if its operational status is <strong>NOTPRESENT</strong>. Thus, this operation is invalid otherwise."
                 }
               },
 
@@ -327,14 +326,14 @@
 
                   "methods": {
                     "GET" : {
-                      "title": "Show an <code>addresses</code> collection.",
+                      "title": "Show an addresses collection.",
 
                       "response": {
                         "$ref": "#/children/interfaces/definitions/addresses"
                       }
                     },
                     "POST": {
-                      "title": "Creates a new <code>address</code>.",
+                      "title": "Creates a new address.",
 
                       "request": {
                         "$ref": "#/children/interfaces/definitions/address"
@@ -352,21 +351,21 @@
 
                       "methods": {
                         "GET"   : {
-                          "title": "Show an <code>address</code>.",
+                          "title": "Show an address.",
 
                           "response": {
                             "$ref": "#/children/interfaces/definitions/address"
                           }
                         },
                         "PUT"   : {
-                          "title": "Updates an <code>address</code> properties.",
+                          "title": "Updates an address properties.",
 
                           "request": {
                             "$ref": "#/children/interfaces/definitions/address"
                           }
                         },
                         "DELETE": {
-                          "title": "Delete an <code>address</code>."
+                          "title": "Delete an address."
                         }
                       }
                     }
@@ -382,14 +381,14 @@
 
           "methods": {
             "GET" : {
-              "title": "Show a <code>VLAN</code> collection.",
+              "title": "Show a VLAN collection.",
 
               "response": {
                 "$ref": "#/children/interfaces/definitions/vlans"
               }
             },
             "POST": {
-              "title": "Show a <code>VLAN</code> collection.",
+              "title": "Show a VLAN collection.",
 
               "request" : {
                 "$ref": "#/children/interfaces/definitions/vlan"
@@ -406,21 +405,21 @@
 
               "methods": {
                 "GET"   : {
-                  "title": "Show a <code>VLAN</code>.",
+                  "title": "Show a VLAN.",
 
                   "response": {
                     "$ref": "#/children/interfaces/definitions/vlan"
                   }
                 },
                 "PUT"   : {
-                  "title": "Updates a <code>VLAN</code> properties.",
+                  "title": "Updates a VLAN properties.",
 
                   "request": {
                     "$ref": "#/children/interfaces/definitions/vlan"
                   }
                 },
                 "DELETE": {
-                  "title": "Delete a <code>VLAN</code>."
+                  "title": "Delete a VLAN."
                 }
               },
 
@@ -430,14 +429,14 @@
 
                   "methods": {
                     "GET" : {
-                      "title": "Show an <code>addresses</code> collection.",
+                      "title": "Show an addresses collection.",
 
                       "response": {
                         "$ref": "#/children/interfaces/definitions/addresses"
                       }
                     },
                     "POST": {
-                      "title": "Creates a new <code>address</code>.",
+                      "title": "Creates a new address.",
 
                       "request": {
                         "$ref": "#/children/interfaces/definitions/address"
@@ -455,21 +454,21 @@
 
                       "methods": {
                         "GET"   : {
-                          "title": "Show an <code>address</code>.",
+                          "title": "Show an address.",
 
                           "response": {
                             "$ref": "#/children/interfaces/definitions/address"
                           }
                         },
                         "PUT"   : {
-                          "title": "Updates an <code>address</code> properties.",
+                          "title": "Updates an address properties.",
 
                           "request": {
                             "$ref": "#/children/interfaces/definitions/address"
                           }
                         },
                         "DELETE": {
-                          "title": "Delete an <code>address</code>."
+                          "title": "Delete an address."
                         }
                       }
                     }
@@ -487,7 +486,7 @@
 
       "methods": {
         "GET": {
-          "title": "Show <code>system</code> level menu."
+          "title": "Show system level menu."
         }
       },
 
@@ -497,18 +496,18 @@
 
           "definitions": {
             "infos": {
-              "title": "A collection of <code>info</code> objects.",
+              "title": "A collection of info objects.",
               "type" : "array",
               "items": {
                 "$ref": "#/children/system/children/info/definitions/info"
               }
             },
             "info" : {
-              "title"     : "An <code>info</code> object.",
+              "title"     : "An info object.",
               "type"      : "object",
               "properties": {
                 "name" : {
-                  "title"   : "Name of the requested <code>info</code> object.",
+                  "title"   : "Name of the requested info object.",
                   "type"    : "string",
                   "required": true,
                   "readonly": true,
@@ -524,7 +523,7 @@
                   ]
                 },
                 "value": {
-                  "title"   : "Value of the requested <code>info</code> object. This value type depends on the <code>name</code> property.",
+                  "title"   : "Value of the requested info object. This value type depends on the <code>name</code> property.",
                   "type"    : "mixed",
                   "required": true
                 }
@@ -740,14 +739,14 @@
 
           "definitions": {
             "settings": {
-              "title": "A collection of <code>settings</code> objects.",
+              "title": "A collection of settings objects.",
               "type" : "array",
               "items": {
                 "$ref": "#/children/system/children/settings/definitions/setting"
               }
             },
             "setting" : {
-              "title"     : "A <code>setting</code> object.",
+              "title"     : "A setting object.",
               "type"      : "object",
               "properties": {
                 "name"       : {
@@ -768,7 +767,7 @@
                   "required": true
                 },
                 "description": {
-                  "title": "Description for this <code>setting</code> object.",
+                  "title": "Description for this setting object.",
                   "type" : "string"
                 }
               }
@@ -791,7 +790,7 @@
 
               "methods": {
                 "GET": {
-                  "title": "Show a specific system <code>setting</code>.",
+                  "title": "Show a specific system setting.",
 
                   "response": {
                     "$ref": "#/children/system/children/settings/definitions/setting"
@@ -859,14 +858,14 @@
 
           "definitions": {
             "tunables": {
-              "title": "A collection of <code>tunable</code> objects.",
+              "title": "A collection of tunable objects.",
               "type" : "array",
               "items": {
                 "$ref": "#/children/system/children/tunables/definitions/tunable"
               }
             },
             "tunable" : {
-              "title"     : "A single <code>tunable</code> object.",
+              "title"     : "A single tunable object.",
               "type"      : "object",
               "properties": {
                 "path"       : {
@@ -877,9 +876,22 @@
                   "readonly": true
                 },
                 "value"      : {
-                  "title"   : "The value to be set in the file descriptor.",
-                  "type"    : "string",
-                  "required": true
+                  "title": "The value to be set in the file descriptor.",
+                  "type" : "object",
+
+                  "properties": {
+                    "original": {
+                      "title"   : "The original value found in the system before it got replaced with the new value. This is so if later the tunable is deleted then it can be reseted.",
+                      "type"    : "string",
+                      "readonly": true
+                    },
+                    "current" : {
+                      "title"   : "The current value for the file descriptor.",
+                      "type"    : "string",
+                      "readonly": true,
+                      "required": true
+                    }
+                  }
                 },
                 "description": {
                   "type" : "string",
@@ -898,7 +910,8 @@
               }
             },
             "POST": {
-              "title": "Creates a new <code>tunable</code>.",
+              "title"      : "Creates a new tunable.",
+              "description": "When creating a new tunable, the previous value found in the system for the tunable will be saved internally so if the tunable gets deleted, its original value can be recovered and setted.",
 
               "request": {
                 "$ref": "#/children/system/children/tunables/definitions/tunable"
@@ -912,25 +925,26 @@
 
           "children": {
             ":path": {
-              "title": "Specific system <code>tunable</code>.",
+              "title": "Specific system tunable.",
 
               "methods": {
                 "GET"   : {
-                  "title": "Show a specific system <code>tunable</code>.",
+                  "title": "Show a specific system tunable.",
 
                   "response": {
                     "$ref": "#/children/system/children/tunables/definitions/tunable"
                   }
                 },
                 "PUT"   : {
-                  "title": "Updates a <code>tunable</code> setting.",
+                  "title": "Updates a tunable setting.",
 
                   "request": {
                     "$ref": "#/children/system/children/tunables/definitions/tunable"
                   }
                 },
                 "DELETE": {
-                  "title": "Delete a <code>tunable</code>."
+                  "title"      : "Delete a tunable.",
+                  "description": "If a tunable is deleted, then its original value will be resetted to maintain the system integrity."
                 }
               }
             }
@@ -942,7 +956,7 @@
 
           "methods": {
             "GET": {
-              "title": "Show system <code>logging</code> menu."
+              "title": "Show system logging menu."
             }
           },
 
@@ -952,32 +966,31 @@
 
               "definitions": {
                 "logs": {
-                  "title": "A collection of <code>logs</code> objects.",
+                  "title": "A collection of logs objects.",
                   "type" : "array",
                   "items": {
                     "$ref": "#/children/system/children/logging/children/logs/definitions/log"
                   }
                 },
                 "log" : {
-                  "title"     : "A <code>log</code> object.",
+                  "title"     : "A log object.",
                   "type"      : "object",
                   "properties": {
                     "id"       : {
-                      "title"   : "An unique identifier for a particular <code>log</code>.",
+                      "title"   : "An unique identifier for a particular log.",
                       "type"    : "string",
-                      "required": true,
                       "unique"  : true,
                       "readonly": true
                     },
                     "module"   : {
-                      "title"   : "Module that this <code>log</code> belongs to.",
+                      "title"   : "Module that this log belongs to.",
                       "type"    : "string",
                       "required": true
                     },
                     "tags"     : {
                       "type" : "array",
                       "items": {
-                        "title": "Categorize the <code>logs</code> to ease the search.",
+                        "title": "Categorize the logs to ease the search.",
                         "type" : "string"
                       }
                     },
@@ -1017,18 +1030,18 @@
 
               "children": {
                 ":id": {
-                  "title": "Specific <code>log</code>.",
+                  "title": "Specific log.",
 
                   "methods": {
                     "GET"   : {
-                      "title": "Show a specific <code>log</code>.",
+                      "title": "Show a specific log.",
 
                       "response": {
                         "$ref": "#/children/system/children/logging/children/logs/definitions/log"
                       }
                     },
                     "DELETE": {
-                      "title": "Delete a <code>log</code>."
+                      "title": "Delete a log."
                     }
                   }
                 }
@@ -1040,14 +1053,14 @@
 
               "definitions": {
                 "settings": {
-                  "title": "A collection of <code>settings</code> objects.",
+                  "title": "A collection of settings objects.",
                   "type" : "array",
                   "items": {
                     "$ref": "#/children/system/children/logging/children/settings/definitions/setting"
                   }
                 },
                 "setting" : {
-                  "title"     : "A <code>setting</code> object.",
+                  "title"     : "A setting object.",
                   "type"      : "object",
                   "properties": {
                     "name"       : {
@@ -1068,7 +1081,7 @@
                       "required": true
                     },
                     "description": {
-                      "title": "Description for this <code>setting</code> object.",
+                      "title": "Description for this setting object.",
                       "type" : "string"
                     }
                   }
@@ -1091,7 +1104,7 @@
 
                   "methods": {
                     "GET": {
-                      "title": "Show a specific logging <code>setting</code>.",
+                      "title": "Show a specific logging setting.",
 
                       "response": {
                         "$ref": "#/children/system/children/logging/children/settings/definitions/setting"
@@ -1205,7 +1218,7 @@
 
       "methods": {
         "GET": {
-          "title": "Show <code>routing</code> level menu."
+          "title": "Show routing level menu."
         }
       },
 
@@ -1215,14 +1228,14 @@
 
           "definitions": {
             "settings": {
-              "title": "A collection of <code>settings</code> objects.",
+              "title": "A collection of settings objects.",
               "type" : "array",
               "items": {
                 "$ref": "#/children/routing/children/settings/definitions/setting"
               }
             },
             "setting" : {
-              "title"     : "A <code>setting</code> object.",
+              "title"     : "A setting object.",
               "type"      : "object",
               "properties": {
                 "name"       : {
@@ -1242,7 +1255,7 @@
                   "required": true
                 },
                 "description": {
-                  "title": "Description for this <code>setting</code> object.",
+                  "title": "Description for this setting object.",
                   "type" : "string"
                 }
               }
@@ -1265,7 +1278,7 @@
 
               "methods": {
                 "GET": {
-                  "title": "Show a specific routing <code>setting</code>.",
+                  "title": "Show a specific routing setting.",
 
                   "response": {
                     "$ref": "#/children/routing/children/settings/definitions/setting"
@@ -1329,14 +1342,14 @@
 
               "definitions": {
                 "tables": {
-                  "title": "A collection of <code>tables</code> objects.",
+                  "title": "A collection of tables objects.",
                   "type" : "array",
                   "items": {
                     "$ref": "#/children/routing/children/static/children/tables/definitions/table"
                   }
                 },
                 "table" : {
-                  "title"     : "A <code>table</code> object.",
+                  "title"     : "A table object.",
                   "type"      : "object",
                   "properties": {
                     "name"       : {
@@ -1356,7 +1369,7 @@
                       "maximum" : 2147483648
                     },
                     "description": {
-                      "title": "Description for this <code>table</code> object.",
+                      "title": "Description for this table object.",
                       "type" : "string"
                     }
                   }
@@ -1365,14 +1378,14 @@
 
               "methods": {
                 "GET" : {
-                  "title": "Show a <code>tables</code> collection.",
+                  "title": "Show a tables collection.",
 
                   "response": {
                     "$ref": "#/children/routing/children/static/children/tables/definitions/tables"
                   }
                 },
                 "POST": {
-                  "title": "Creates a new <code>table</code>.",
+                  "title": "Creates a new table.",
 
                   "request": {
                     "$ref": "#/children/routing/children/static/children/tables/definitions/table"
@@ -1390,21 +1403,136 @@
 
                   "methods": {
                     "GET"   : {
-                      "title": "Show a specific <code>table</code>.",
+                      "title": "Show a specific table.",
 
                       "response": {
                         "$ref": "#/children/routing/children/static/children/tables/definitions/table"
                       }
                     },
                     "PUT"   : {
-                      "title": "Updates a <code>table</code> properties.",
+                      "title": "Updates a table properties.",
 
                       "request": {
                         "$ref": "#/children/routing/children/static/children/tables/definitions/table"
                       }
                     },
                     "DELETE": {
-                      "title": "Delete a <code>table</code>."
+                      "title": "Delete a table.<br /><br /><div class='alert alert-danger docs-no-margin-bottom'><strong>Warning:</strong>&nbsp;All rules that points out to the table and all the contained routes will be deleted as well.</div>"
+                    }
+                  },
+
+                  "instances": {
+                    "255": {
+                      "title"      : "Special routing table containing high priority control routes for local and broadcast addresses.",
+                      "description": "It is a special table and thus cannot be deleted.",
+                      "type"       : "object",
+                      "properties" : {
+                        "name"       : {
+                          "title": "Name of the requested table object.",
+                          "type" : "string",
+                          "enum" : [
+                            "local"
+                          ]
+                        },
+                        "id"         : {
+                          "title": "Identifier of the requested table object.",
+                          "type" : "number",
+                          "enum" : [
+                            255
+                          ]
+                        },
+                        "description": {
+                          "title": "Description for this table object.",
+                          "type" : "string",
+                          "enum" : [
+                            "Special routing table containing high priority control routes for local and broadcast addresses."
+                          ]
+                        }
+                      }
+                    },
+                    "254": {
+                      "title"      : "The normal routing table containing all non-policy routes.",
+                      "description": "It is a special table and thus cannot be deleted.",
+                      "type"       : "object",
+                      "properties" : {
+                        "name"       : {
+                          "title": "Name of the requested table object.",
+                          "type" : "string",
+                          "enum" : [
+                            "main"
+                          ]
+                        },
+                        "id"         : {
+                          "title": "Identifier of the requested table object.",
+                          "type" : "number",
+                          "enum" : [
+                            254
+                          ]
+                        },
+                        "description": {
+                          "title": "Description for this table object.",
+                          "type" : "string",
+                          "enum" : [
+                            "The normal routing table containing all non-policy routes."
+                          ]
+                        }
+                      }
+                    },
+                    "253": {
+                      "title"      : "Reserved for post-processing if no previous default rules selected the packet.",
+                      "description": "It is a special table and thus cannot be deleted.",
+                      "type"       : "object",
+                      "properties" : {
+                        "name"       : {
+                          "title": "Name of the requested table object.",
+                          "type" : "string",
+                          "enum" : [
+                            "default"
+                          ]
+                        },
+                        "id"         : {
+                          "title": "Identifier of the requested table object.",
+                          "type" : "number",
+                          "enum" : [
+                            253
+                          ]
+                        },
+                        "description": {
+                          "title": "Description for this table object.",
+                          "type" : "string",
+                          "enum" : [
+                            "Reserved for post-processing if no previous default rules selected the packet."
+                          ]
+                        }
+                      }
+                    },
+                    "0"  : {
+                      "title"      : "Reserved for post-processing if no previous default rules selected the packet.",
+                      "description": "It is a special table and thus cannot be deleted.",
+                      "type"       : "object",
+                      "properties" : {
+                        "name"       : {
+                          "title": "Name of the requested table object.",
+                          "type" : "string",
+                          "enum" : [
+                            "unspec"
+                          ]
+                        },
+                        "id"         : {
+                          "title": "System reserved.",
+                          "type" : "number",
+                          "enum" : [
+                            0
+                          ]
+                        },
+                        "description": {
+                          "title": "Description for this table object.",
+                          "type" : "string",
+                          "enum" : [
+                            "System reserved."
+                          ]
+                        }
+                      }
                     }
                   },
 
@@ -1414,27 +1542,27 @@
 
                       "definitions": {
                         "routes": {
-                          "title": "A collection of <code>routes</code> objects.",
+                          "title": "A collection of routes objects.",
                           "type" : "array",
                           "items": {
                             "$ref": "#/children/routing/children/static/children/tables/children/:id/children/routes/definitions/route"
                           }
                         },
                         "route" : {
-                          "title"     : "A <code>route</code> object.",
+                          "title"     : "A route object.",
                           "type"      : "object",
                           "properties": {
                             "to"         : {
-                              "title"   : "The destination prefix of the route.",
+                              "title"   : "The destination prefix of the route. The format of the address depends on the protocol. It is a dotted quad for IP and a sequence of hexadecimal halfwords separated by colons for IPv6. The address may be followed by a slash and a decimal number which encodes the network prefix length.",
                               "type"    : "string",
                               "required": true,
-                              "readonly": true
+                              "readonly": true,
+                              "unique"  : true
                             },
                             "type"       : {
-                              "title"   : "Route type.<br />Possible values are:<br /><ul class='docs-no-margin-bottom'><li><abbr title='The route entry describes real paths to the destinations covered by the route prefix.'>unicast</abbr></li><li><abbr title='These destinations are unreachable. Packets are discarded and the ICMP message host unreachable is generated. The local senders get an EHOSTUNREACH error.'>unreachable</abbr></li><li><abbr title='These destinations are unreachable. Packets are discarded silently. The local senders get an EINVAL error.'>blackhole</abbr></li><li><abbr title='These destinations are unreachable. Packets are discarded and the ICMP message communication administratively prohibited is generated. The local senders get an EACCES error.'>prohibit</abbr></li><li><abbr title='The destinations are assigned to this host. The packets are looped back and delivered locally.'>local</abbr></li><li><abbr title='The destinations are broadcast addresses. The packets are sent as link broadcasts.'>broadcast</abbr></li><li><abbr title='A special control route used together with policy rules (see sec.8, p.35). If such a route is selected, lookup in this table is terminated pretending that no route was found. Without policy routing it is equivalent to the absence of the route in the routing table. The packets are dropped and the ICMP message net unreachable is generated. The local senders get an ENETUNREACH error.'>throw</abbr></li><li><abbr title='A special NAT route. Destinations covered by the prefix are considered to be dummy (or external) addresses which require translation to real (or internal) ones before forwarding. The addresses to translate to are selected with the attribute via.'>nat</abbr></li><li><abbr title='(not implemented) The destinations are anycast addresses assigned to this host. They are mainly equivalent to local with one difference: such addresses are invalid when used as the source address of any packet.'>anycast</abbr></li><li><abbr title='A special type used for multicast routing. It is not present in normal routing tables.'>multicast</abbr></li></ul>",
-                              "type"    : "number",
-                              "required": true,
-                              "enum"    : [
+                              "title"  : "Route type.<br />Possible values are:<br /><ul class='docs-no-margin-bottom'><li><abbr title='The route entry describes real paths to the destinations covered by the route prefix.'>unicast</abbr></li><li><abbr title='These destinations are unreachable. Packets are discarded and the ICMP message host unreachable is generated. The local senders get an EHOSTUNREACH error.'>unreachable</abbr></li><li><abbr title='These destinations are unreachable. Packets are discarded silently. The local senders get an EINVAL error.'>blackhole</abbr></li><li><abbr title='These destinations are unreachable. Packets are discarded and the ICMP message communication administratively prohibited is generated. The local senders get an EACCES error.'>prohibit</abbr></li><li><abbr title='The destinations are assigned to this host. The packets are looped back and delivered locally.'>local</abbr></li><li><abbr title='The destinations are broadcast addresses. The packets are sent as link broadcasts.'>broadcast</abbr></li><li><abbr title='A special control route used together with policy rules. If such a route is selected, lookup in this table is terminated pretending that no route was found. Without policy routing it is equivalent to the absence of the route in the routing table. The packets are dropped and the ICMP message net unreachable is generated. The local senders get an ENETUNREACH error.'>throw</abbr></li><li><abbr title='A special NAT route. Destinations covered by the prefix are considered to be dummy (or external) addresses which require translation to real (or internal) ones before forwarding. The addresses to translate to are selected with the attribute via.'>nat</abbr></li><li><abbr title='(not implemented) The destinations are anycast addresses assigned to this host. They are mainly equivalent to local with one difference: such addresses are invalid when used as the source address of any packet.'>anycast</abbr></li><li><abbr title='A special type used for multicast routing. It is not present in normal routing tables.'>multicast</abbr></li></ul>",
+                              "type"   : "string",
+                              "enum"   : [
                                 "unicast",
                                 "unreachable",
                                 "blackhole",
@@ -1445,7 +1573,8 @@
                                 "nat",
                                 "anycast",
                                 "multicast"
-                              ]
+                              ],
+                              "default": "unicast"
                             },
                             "tos"        : {
                               "title": "The Type Of Service (TOS) key. This key has no associated mask and the longest match is understood as: First, compare the TOS of the route and of the packet. If they are not equal, then the packet may still match a route with a zero TOS. TOS is either an 8 bit hexadecimal number or an identifier from /etc/iproute2/rt dsfield.",
@@ -1455,31 +1584,18 @@
                               "title": "The Type Of Service (TOS) key. This key has no associated mask and the longest match is understood as: First, compare the TOS of the route and of the packet. If they are not equal, then the packet may still match a route with a zero TOS. TOS is either an 8 bit hexadecimal number or an identifier from /etc/iproute2/rt dsfield.",
                               "type" : "string"
                             },
-                            "metric"     : {
-                              "title"  : "The preference value of the route. NUMBER is an arbitrary 32bit number.",
-                              "type"   : "number",
-                              "minimum": 0,
-                              "maximum": 4294967296
-                            },
                             "preference" : {
                               "title"  : "The preference value of the route. NUMBER is an arbitrary 32bit number.",
                               "type"   : "string",
                               "minimum": 0,
                               "maximum": 4294967296
                             },
-                            "table"      : {
-                              "title"   : "The table id to add this route to.",
-                              "type"    : "number",
-                              "minimum" : 0,
-                              "maximum" : 2147483648,
-                              "required": true
-                            },
                             "dev"        : {
                               "title": "The output device name.",
                               "type" : "string"
                             },
                             "via"        : {
-                              "title"   : "The address of the nexthop router. Actually, the sense of this field depends on the route type. For normal unicast routes it is either the true nexthop router or, if it is a direct route installed in BSD compatibility mode, it can be a local address of the interface. For NAT routes it is the first address of the block of translated IP destinations.",
+                              "title"   : "The sense of this field depends on the route type. For normal unicast routes it is either the true nexthop router or, if it is a direct route installed in BSD compatibility mode, it can be a local address of the interface. For NAT routes it is the first address of the block of translated IP destinations.",
                               "type"    : "string",
                               "required": true
                             },
@@ -1492,7 +1608,7 @@
                               "type" : "string"
                             },
                             "mtu"        : {
-                              "title": "The MTU along the path to the destination.",
+                              "title": "The MTU along the path to the destination. If the modifier lock is not used, the MTU may be updated by the kernel due to Path MTU Discovery. If the modifier lock is used, no path MTU discovery will be tried, all packets will be sent without the DF bit in IPv4 case or fragmented to MTU for IPv6.",
                               "type" : "string"
                             },
                             "window"     : {
@@ -1500,7 +1616,7 @@
                               "type" : "number"
                             },
                             "rtt"        : {
-                              "title": "The initial <abbr title='Round Trip Time'>RTT</abbr> estimate.",
+                              "title": "The initial <abbr title='Round Trip Time'>RTT</abbr> estimate. If no suffix is specified the units are raw values passed directly to the routing code to maintain compatibility with previous releases. Otherwise if a suffix of s, sec or secs is used to specify seconds and ms, msec or msecs to specify milliseconds.",
                               "type" : "string"
                             },
                             "rttvar"     : {
@@ -1520,19 +1636,23 @@
                               "type" : "number"
                             },
                             "initcwnd"   : {
-                              "title": "The initial congestion window size for connections to this destination.  Actual window size is this value multiplied by the MSS (``Maximal Segment Size'') for same connection. The default is zero, meaning to use the values specified in RFC2414.",
+                              "title": "The initial congestion window size for connections to this destination. Actual window size is this value multiplied by the MSS (\"Maximal Segment Size\") for same connection. The default is zero, meaning to use the values specified in RFC2414.",
                               "type" : "number"
                             },
                             "initrwnd"   : {
-                              "title": "The initial receive window size for connections to this destination.  Actual window size is this value multiplied by the MSS of the connection.  The default value is zero, meaning to use Slow Start value.",
+                              "title": "The initial receive window size for connections to this destination. Actual window size is this value multiplied by the MSS of the connection. The default value is zero, meaning to use Slow Start value.",
                               "type" : "number"
                             },
+                            "quickack"   : {
+                              "title": "Enable or disable quick ack for connections to this destination.",
+                              "type" : "boolean"
+                            },
                             "advmss"     : {
-                              "title": "The MSS ('Maximal Segment Size') to advertise to these destinations when establishing TCP connections.  If it is not given, Linux uses a default value calculated from the first hop device MTU.  (If the path to these destination is asymmetric, this guess may be wrong.)",
+                              "title": "The MSS ('Maximal Segment Size') to advertise to these destinations when establishing TCP connections. If it is not given, Linux uses a default value calculated from the first hop device MTU. (If the path to these destination is asymmetric, this guess may be wrong.)",
                               "type" : "number"
                             },
                             "reordering" : {
-                              "title": "Maximal reordering on the path to this destination.  If it is not given, Linux uses the value selected with sysctl variable net/ipv4/tcp_reordering.",
+                              "title": "Maximal reordering on the path to this destination. If it is not given, Linux uses the value selected with sysctl variable net/ipv4/tcp_reordering.",
                               "type" : "string"
                             },
                             "nexthop"    : {
@@ -1559,7 +1679,7 @@
                               }
                             },
                             "scope"      : {
-                              "title": "The scope of the destinations covered by the route prefix.",
+                              "title": "The scope of the destinations covered by the route prefix. Possible values are:<br /><ul class='docs-no-margin-bottom'><li><abbr title='the address is valid only inside this host.'>host</abbr></abbr></li><li><abbr title='The address is link local, i.e. it is valid only on this device.'>link</abbr></li><li><abbr title='The address is globally valid.'>global</abbr></li><li>nowhere</li><li><abbr title='(IPv6 only) the address is site local, i.e. it is valid inside this site.'>site</abbr></li></ul>",
                               "type" : "string",
                               "enum" : [
                                 "host",
@@ -1573,8 +1693,12 @@
                               "title": "The routing protocol identifier of this route.",
                               "type" : "string"
                             },
+                            "onlink"   : {
+                              "title": "Pretend that the nexthop is directly attached to this link, even if it does not match any interface prefix.<br /><br /><div class='alert alert-danger docs-no-margin-bottom'><strong>Warning:</strong>&nbsp;Use this option in conjunction with <code>nexthop</code>. If <code>nexthop</code> is not set, it will result in an invalid operation.</div>",
+                              "type" : "boolean"
+                            },
                             "description": {
-                              "title": "Description for this <code>route</code> object.",
+                              "title": "Description for this route object.",
                               "type" : "string"
                             }
                           }
@@ -1583,14 +1707,14 @@
 
                       "methods": {
                         "GET" : {
-                          "title": "Show a <code>routes</code> collection.",
+                          "title": "Show a routes collection.",
 
                           "response": {
                             "$ref": "#/children/routing/children/static/children/tables/children/:id/children/routes/definitions/routes"
                           }
                         },
                         "POST": {
-                          "title": "Creates a new <code>route</code>.",
+                          "title": "Creates a new route.",
 
                           "request": {
                             "$ref": "#/children/routing/children/static/children/tables/children/:id/children/routes/definitions/route"
@@ -1603,26 +1727,26 @@
                       },
 
                       "children": {
-                        ":id": {
+                        ":to": {
                           "title": "Specific route.",
 
                           "methods": {
                             "GET"   : {
-                              "title": "Show a specific <code>route</code>.",
+                              "title": "Show a specific route.",
 
                               "response": {
                                 "$ref": "#/children/routing/children/static/children/tables/children/:id/children/routes/definitions/route"
                               }
                             },
                             "PUT"   : {
-                              "title": "Updates a <code>route</code> properties.",
+                              "title": "Updates a route properties.",
 
                               "request": {
                                 "$ref": "#/children/routing/children/static/children/tables/children/:id/children/routes/definitions/route"
                               }
                             },
                             "DELETE": {
-                              "title": "Delete a <code>route</code>."
+                              "title": "Delete a route."
                             }
                           }
                         }
@@ -1633,7 +1757,199 @@
               }
             },
 
-            "rules": {}
+            "rules": {
+              "title": "Routing rules.",
+
+              "definitions": {
+                "rules": {
+                  "title": "A collection of rules objects.",
+                  "type" : "array",
+                  "items": {
+                    "$ref": "#/children/routing/children/static/children/rules/definitions/rule"
+                  }
+                },
+                "rule" : {
+                  "title"     : "A rule object.",
+                  "type"      : "object",
+                  "properties": {
+                    "type"                 : {
+                      "title"   : "The type of this rule.<br />Possible values are:<br /><ul class='docs-no-margin-bottom'><li><abbr title='The rule prescribes to return the route found in the routing table referenced by the rule.'>unicast</abbr></abbr></li><li><abbr title='The rule prescribes to silently drop the packet.'>blackhole</abbr></abbr></li><li><abbr title='The rule prescribes to generate a \"Network is unreachable\" error.'>unreachable</abbr></abbr></li><li><abbr title='The rule prescribes to generate \"Communication is administratively prohibited\" error.'>prohibit</abbr></abbr></li><li><abbr title='The rule prescribes to translate the source address of the IP packet into some other value.'>nat</abbr></abbr></li></ul>",
+                      "type"    : "string",
+                      "required": true,
+                      "readonly": true,
+                      "enum"    : [
+                        "unicast",
+                        "blackhole",
+                        "unreachable",
+                        "prohibit",
+                        "nat"
+                      ]
+                    },
+                    "priority"             : {
+                      "title"   : "The priority of this rule. The priority increases as the number decreases.",
+                      "type"    : "number",
+                      "unique"  : true,
+                      "required": true,
+                      "readonly": true,
+                      "minimum" : 0,
+                      "maximum" : 32767
+                    },
+                    "table"                : {
+                      "title"   : "The routing table identifier to lookup if the rule selector matches.",
+                      "type"    : "number",
+                      "readonly": true,
+                      "required": true,
+                      "minimum" : 0,
+                      "maximum" : 2147483648
+                    },
+                    "from"                 : {
+                      "title"   : "Select the source prefix to match. The format of the address depends on the protocol. It is a dotted quad for IP and a sequence of hexadecimal halfwords separated by colons for IPv6. The address may be followed by a slash and a decimal number which encodes the network prefix length.",
+                      "type"    : "string",
+                      "readonly": true
+                    },
+                    "to"                   : {
+                      "title"   : "Select the destination prefix to match. The format of the address depends on the protocol. It is a dotted quad for IP and a sequence of hexadecimal halfwords separated by colons for IPv6. The address may be followed by a slash and a decimal number which encodes the network prefix length.",
+                      "type"    : "string",
+                      "readonly": true
+                    },
+                    "iif"                  : {
+                      "title"   : "Select the incoming device to match. If the interface is loopback, the rule only matches packets originating from this host. This means that you may create separate routing tables for forwarded and local packets and, hence, completely segregate them.",
+                      "type"    : "string",
+                      "readonly": true
+                    },
+                    "oif"                  : {
+                      "title"   : "Select the outgoing device to match. The outgoing interface is only available for packets originating from local sockets that are bound to a device.",
+                      "type"    : "string",
+                      "readonly": true
+                    },
+                    "tos"                  : {
+                      "title"   : "Select the TOS value to match.",
+                      "type"    : "string",
+                      "readonly": true
+                    },
+                    "dsfield"              : {
+                      "title"   : "Select the TOS value to match.",
+                      "type"    : "string",
+                      "readonly": true
+                    },
+                    "fwmark"               : {
+                      "title"   : "Select the fwmark value to match.",
+                      "type"    : "string",
+                      "readonly": true
+                    },
+                    "suppress_prefixlength": {
+                      "title"   : "Reject routing decisions that have a prefix length of NUMBER or less.",
+                      "type"    : "number",
+                      "readonly": true
+                    },
+                    "suppress_ifgroup"     : {
+                      "title"   : "Reject routing decisions that use a device belonging to the interface group GROUP.",
+                      "type"    : "string",
+                      "readonly": true
+                    },
+                    "realms"               : {
+                      "title"   : "Realms to select if the rule matched and the routing table lookup succeeded. Realm TO is only used if the route did not select any realm.",
+                      "type"    : "string",
+                      "readonly": true
+                    },
+                    "nat"                  : {
+                      "title"   : "The base of the IP address block to translate (for source addresses). The ADDRESS may be either the start of the block of NAT addresses (selected by NAT routes) or a local host address.",
+                      "type"    : "string",
+                      "readonly": true
+                    },
+                    "description"          : {
+                      "title": "Description for this rule object.",
+                      "type" : "string"
+                    }
+                  }
+                }
+              },
+
+              "methods": {
+                "GET" : {
+                  "title": "Show a rules collection.",
+
+                  "response": {
+                    "$ref": "#/children/routing/children/static/children/rules/definitions/rules"
+                  }
+                },
+                "POST": {
+                  "title": "Creates a new rule.",
+
+                  "request": {
+                    "$ref": "#/children/routing/children/static/children/rules/definitions/rule"
+                  },
+
+                  "response": {
+                    "$ref": "#/children/routing/children/static/children/rules/definitions/rule"
+                  }
+                }
+              },
+
+              "children": {
+                ":priority": {
+                  "title": "Specific rule.",
+
+                  "methods": {
+                    "GET"   : {
+                      "title": "Show a specific rule.",
+
+                      "response": {
+                        "$ref": "#/children/routing/children/static/children/rules/definitions/rule"
+                      }
+                    },
+                    "PUT"   : {
+                      "title": "Updates a rule properties.",
+
+                      "request": {
+                        "$ref": "#/children/routing/children/static/children/rules/definitions/rule"
+                      }
+                    },
+                    "DELETE": {
+                      "title": "Delete a rule."
+                    }
+                  },
+
+                  "instances": {
+                    "0": {
+                      "title"      : "Special routing table containing high priority control routers for local and broadcast addresses",
+                      "description": "Rule 0 is special. It cannot be deleted or overridden. The kernel maintains this table automatically and the administrator usually need not modify it or even look at it.",
+                      "type"       : "object",
+                      "properties" : {
+                        "type"       : {
+                          "title": "The type of this rule.<br />The rule prescribes to return the route found in the routing table referenced by the rule.",
+                          "type" : "string",
+                          "enum" : [
+                            "unicast"
+                          ]
+                        },
+                        "priority"   : {
+                          "title": "The priority of this rule. The priority increases as the number decreases.",
+                          "type" : "number",
+                          "enum" : [
+                            0
+                          ]
+                        },
+                        "table"      : {
+                          "title": "The routing table identifier to lookup if the rule selector matches.",
+                          "type" : "number",
+                          "enum" : [
+                            255
+                          ]
+                        },
+                        "description": {
+                          "title": "Description for this rule object.",
+                          "type" : "string",
+                          "enum" : [
+                            "Special routing table containing high priority control routers for local and broadcast addresses."
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

@@ -53,7 +53,7 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
 
             var instance = '';
             if (stack[i].search(':') != -1) {
-              instance = '<span class="text-' + methods_map[method].color + '">'
+              instance = '<span class="text-default">'
                 + stack[i]
                 + '</span>';
             }
@@ -105,14 +105,16 @@ app.controller('DocsController', function ($scope, APIService, UtilsService) {
 
         if (node.methods[method].request) {
           content.request = {
-            title   : node.methods[method].request.title,
-            treegrid: compatibilizeSchemaForTreeGrid(node.methods[method].request)
+            title      : node.methods[method].request.title,
+            description: node.methods[method].request.description,
+            treegrid   : compatibilizeSchemaForTreeGrid(node.methods[method].request)
           };
         }
         if (node.methods[method].response) {
           content.response = {
-            title   : node.methods[method].response.title,
-            treegrid: compatibilizeSchemaForTreeGrid(node.methods[method].response)
+            title      : node.methods[method].response.title,
+            description: node.methods[method].response.description,
+            treegrid   : compatibilizeSchemaForTreeGrid(node.methods[method].response)
           };
         }
         if (node.instances) {

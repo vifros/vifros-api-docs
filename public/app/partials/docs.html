@@ -32,7 +32,7 @@
 					<div class="panel panel-primary">
 						<div class="panel-heading">Description</div>
 						<div class="panel-body">
-							<span ng-bind-html="tab.content.title"></span>
+							<div ng-bind-html="tab.content.title"></div>
 							<hr ng-show="tab.content.description" />
 							<div ng-show="tab.content.description" ng-bind-html="tab.content.description">
 							</div>
@@ -57,7 +57,11 @@
 
 					<div class="panel panel-success" ng-if="tab.content.request">
 						<div class="panel-heading">Request</div>
-						<div class="panel-body" ng-bind-html="tab.content.request.title"></div>
+						<div class="panel-body">
+							<div ng-bind-html="tab.content.request.title"></div>
+							<hr ng-if="tab.content.request.description" />
+							<div ng-if="tab.content.request.description" ng-bind-html="tab.content.request.description"></div>
+						</div>
 
 						<tree-grid ng-if="tab.content.request"
 						           tree-data="tab.content.request.treegrid"
@@ -67,7 +71,11 @@
 
 					<div class="panel panel-success" ng-if="tab.content.response">
 						<div class="panel-heading">Response</div>
-						<div class="panel-body" ng-bind-html="tab.content.response.title"></div>
+						<div class="panel-body">
+							<div ng-bind-html="tab.content.response.title"></div>
+							<hr ng-if="tab.content.response.description" />
+							<div ng-if="tab.content.response.description" ng-bind-html="tab.content.response.description"></div>
+						</div>
 
 						<tree-grid ng-if="tab.content.response" tree-data="tab.content.response.treegrid" col-defs="col_defs"></tree-grid>
 					</div>
